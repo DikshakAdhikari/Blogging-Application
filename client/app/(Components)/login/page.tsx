@@ -11,7 +11,7 @@ const Login = () => {
     const handleLogin= async(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         try{
-          const res= await fetch('http://localhost:3001/user/signin',{
+          const res= await fetch('http://localhost:3002/user/signin',{
             method:"POST",
             credentials:'include',
             headers:{

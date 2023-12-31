@@ -7,7 +7,7 @@ export default function Home() {
   useEffect(()=> {
     const fun = async()=> {
       try{
-        const res= await fetch('http://localhost:3001/blog/all',{
+        const res= await fetch('http://localhost:3002/blog/all',{
         method:"GET",
         credentials:"include", //This is very important in the case when we want to send cookies with the request
         headers:{
@@ -37,7 +37,7 @@ export default function Home() {
       <div>
        
        <Image
-      src={`http://localhost:3001/${val.imageUrl}`}
+      src={`http://localhost:3002/${val.imageUrl}`}
       width={500}
       height={100}
       alt="Picture of the author"

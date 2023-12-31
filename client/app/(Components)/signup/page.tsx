@@ -11,7 +11,7 @@ const Page = () => {
   const handleSignup= async(e:FormEvent<HTMLFormElement>)=>{
       e.preventDefault();
       try{
-        const res= await fetch('http://localhost:3001/user/',{
+        const res= await fetch('http://localhost:3002/user/',{
           method:"POST",
           credentials:'include',
           headers:{

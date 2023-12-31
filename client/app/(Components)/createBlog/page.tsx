@@ -14,7 +14,7 @@ const Page: FC = () => {
     setHydrated(true);
     const fun = async()=> {
       try{
-        const res= await fetch('http://localhost:3001/blog/all',{
+        const res= await fetch('http://localhost:3002/blog/all',{
         method:"GET",
         credentials:"include", //This is very important in the case when we want to send cookies with the request
         headers:{
@@ -56,7 +56,7 @@ const Page: FC = () => {
     formData.append('description', description)
 
     try{
-      const res= await fetch('http://localhost:3001/blog/', {
+      const res= await fetch('http://localhost:3002/blog/', {
         method:"POST",
         credentials: "include",
 

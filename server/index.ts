@@ -5,6 +5,7 @@ import userRouter from './routes/user'
 import cookieParser from 'cookie-parser'
 import blogRouter from './routes/blog'
 import cors from 'cors'
+import commentRouter from './routes/comment'
 dotenv.config()
 connectDb()
 
@@ -20,6 +21,7 @@ app.use(express.static('public')) //It means our image will be inside public(roo
 
 app.use('/user',userRouter)
 app.use('/blog',blogRouter)
+app.use('/comment', commentRouter)
 
 app.listen(process.env.PORT , ()=> console.log(`Server listening on port ${process.env.PORT}`))
 

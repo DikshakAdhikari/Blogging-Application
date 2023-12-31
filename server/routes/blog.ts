@@ -51,7 +51,7 @@ blogRouter.get('/all' , async(req, res)=> {
     }
 })
 
-blogRouter.get('/:id', async(req,res)=> {
+blogRouter.get('/:id', verifyJwt, async(req,res)=> {
     try{
         const userBlogs= await blog.find({createdBy:req.params.id}) //
         res.json(userBlogs)
