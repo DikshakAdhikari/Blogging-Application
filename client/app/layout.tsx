@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import ReduxProvider from './store/ReduxProvider';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,9 +18,9 @@ export default function RootLayout({
 }) {
   return (
       
+    <ReduxProvider>
     <html lang='en'>
     <body>
-        
     <div className='main' >
         <div  className='gradient' />
     </div>
@@ -28,6 +30,7 @@ export default function RootLayout({
     
     </body>
 </html>
+    </ReduxProvider>
   
 
   )

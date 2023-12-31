@@ -20,8 +20,7 @@ export default function Home() {
       }
       // console.log(Cookies.get('token'));
       const data= await res.json()
-      console.log(data[0].createdBy.fullName);
-      
+      //console.log(data[0].createdBy.fullName);
       setImage(data)
       
       }catch(err){

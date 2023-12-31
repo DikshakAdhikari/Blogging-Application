@@ -3,11 +3,14 @@ import { useRouter } from 'next/navigation'
 import React, { useState, FormEvent, } from 'react'
 import Cookies from 'js-cookie'
 import Navbar from '../Navbar'
+import { useDispatch } from 'react-redux'
+import { setUser } from '@/app/store/infoSlice'
 
 const Login = () => {
     const [email, setEmail]= useState('')
     const [password, setPassword]= useState('')
     const router= useRouter()
+    const dispatch= useDispatch()
 
     const handleLogin= async(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
@@ -25,7 +28,12 @@ const Login = () => {
           if(!res.ok){
             throw new Error('Network connection error!')
           }
+          const data= await res.json()
+          //console.log(data._id);
+          dispatch(setUser(data._id))
+          
           if(Cookies.get('token'))
+          // dispatch(setUser((id:)))
           router.push('/createBlog')
     
         }catch(err){

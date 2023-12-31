@@ -28,7 +28,7 @@ const Page = () => {
       }
       //console.log(Cookies.get('token'));
       const data= await res.json()
-      console.log(data);
+      //console.log(data);
        setImage(data)
       
       }catch(err){
