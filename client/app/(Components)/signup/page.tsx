@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation'
 import React, { useState, FormEvent, } from 'react'
 import Cookies from 'js-cookie'
+import Navbar from '../Navbar'
 const Page = () => {
   const [username, setUsername]= useState('')
   const [email, setEmail]= useState('')
@@ -35,6 +36,8 @@ const Page = () => {
     }
   
 return (
+  <div>
+    <Navbar />
   <div className=' flex flex-col gap-6 justify-center  items-center h-[88vh]'>
       <div className=" text-[2rem] font-bold text-gray-800">Register</div>
     <form onSubmit={handleSignup} className=" border-[2px] border-gray-700 py-16 p-8 flex flex-col items-center gap-5" action="">
@@ -43,7 +46,7 @@ return (
        <input required onChange={(e)=> setPassword(e.target.value)} type="text" className=" w-[30vw] border-[1px] border-gray-500 p-3"  placeholder="Password"/>
        <button className=" w-[10vw] bg-blue-500 p-3 rounded-lg" type="submit">Submit</button>
     </form>
-
+    </div>
   </div>
 )
 }

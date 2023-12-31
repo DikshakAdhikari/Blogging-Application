@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import Image from 'next/image'
+import Navbar from "./(Components)/Navbar"
 
 export default function Home() {
   const [image, setImage]= useState<any>([])
@@ -30,7 +31,8 @@ export default function Home() {
     fun()
   },[])
   return (
-    
+    <div>
+      <Navbar />
     <div className=" grid grid-cols-3 p-3">
 
        {image?.map((val:any)=> (
@@ -49,6 +51,7 @@ export default function Home() {
           <div>{val.createdBy.fullName}</div>
         </div>
       ))}   
+  </div>
   </div>
    
       )

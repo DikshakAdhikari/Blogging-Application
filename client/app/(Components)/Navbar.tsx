@@ -17,8 +17,6 @@ const Navbar = () => {
   }
 
   useEffect(()=> {
-    console.log(Cookies.get('token'));
-    
     setToken(Cookies.get('token'))
   })
 
@@ -33,7 +31,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div className=' flex gap-5'>
-              <button  className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>Create Blog</button>
+              <button onClick={()=> router.push('/myBlogs')} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>My Blogs</button>
               <button onClick={handleLogout} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>Logout</button>
             </div>
           )

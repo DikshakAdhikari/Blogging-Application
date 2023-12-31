@@ -1,8 +1,10 @@
 "use client"
-import React, { FC } from 'react'
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import Cookies from "js-cookie"
-const Page: FC = () => {
+import Navbar from "../Navbar"
+
+
+const Page = () => {
    const [file, setFile]= useState<File|null>(null)
   const [title, settitle]= useState('')
   const [description, setDescription] = useState('')
@@ -69,6 +71,7 @@ const Page: FC = () => {
   }
   return (
     <>
+    <Navbar />
    <div className=" h-[100vh] p-4"> 
 
     <form   onSubmit={handleSubmit} className="  pt-20  items-center justify-center flex flex-col gap-4" >
