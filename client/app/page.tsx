@@ -31,27 +31,28 @@ export default function Home() {
   },[])
   return (
     <div>
-      <Navbar />
-    <div className=" grid grid-cols-3 p-3">
+    <Navbar />
+    <div className=" flex justify-center h-[100%]">
+  <div className=" grid grid-cols-3  p-5 gap-10">
 
-       {image?.map((val:any)=> (
-      <div>
-       
-       <Image
-      src={`http://localhost:3002/${val.imageUrl}`}
-      width={500}
-      height={100}
-      alt="Picture of the author"
-    />
-  
-          {/* <img src={`http://localhost:3001/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
-          <div>{val.title}</div>
-          <div>{val.description}</div>
-          <div>{val.createdBy.fullName}</div>
+     {image?.map((val:any)=> (
+    <div className="  hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
+     <Image className=" object-fill w-full h-52"
+    src={`http://localhost:3002/${val.imageUrl}`}
+    width={500}
+    height={100}
+    alt="Picture of the author"
+  />
+    <div className="  p-5 flex flex-col gap-4">
+        {/* <img src={`http://localhost:3001/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
+        <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
+        <button className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
         </div>
-      ))}   
-  </div>
-  </div>
+      </div>
+    ))}   
+</div>
+</div>
+</div>
    
       )
 }
