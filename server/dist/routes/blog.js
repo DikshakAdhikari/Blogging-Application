@@ -43,47 +43,107 @@ var express_1 = __importDefault(require("express"));
 var veriftJwt_1 = require("../middlewares/veriftJwt");
 var multer_1 = __importDefault(require("multer"));
 var blog_1 = __importDefault(require("../models/blog"));
+var path_1 = __importDefault(require("path"));
 var blogRouter = express_1.default.Router();
+//  blogRouter.use(express.static(path.resolve('./public/uploads/')));
 var storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         //console.log(req.headers['userId']);
-        cb(null, './public/uploads');
+        cb(null, path_1.default.resolve('./public/uploads/'));
     },
     filename: function (req, file, cb) {
         // console.log(file.mimetype); // image/jpeg
         // const ext = file.mimetype.split("/")[1]; //jpeg
-        cb(null, Date.now() + '.' + file.originalname); // .jpeg
+        var fileName = "".concat(Date.now(), "-").concat(file.originalname);
+        cb(null, fileName); // .jpeg
     }
 });
 var upload = (0, multer_1.default)({ storage: storage });
 blogRouter.post('/', veriftJwt_1.verifyJwt, upload.single('file'), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, title, description, userId, data, err_1;
-    var _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0:
-                _c.trys.push([0, 3, , 4]);
+                _d.trys.push([0, 3, , 4]);
                 _a = req.body, title = _a.title, description = _a.description;
-                console.log(req.headers['userId']);
                 userId = req.headers['userId'];
+                console.log((_b = req.file) === null || _b === void 0 ? void 0 : _b.filename);
                 return [4 /*yield*/, blog_1.default.create({
-                        imageUrl: (_b = req.file) === null || _b === void 0 ? void 0 : _b.path,
+                        imageUrl: "/uploads/".concat((_c = req.file) === null || _c === void 0 ? void 0 : _c.filename),
                         title: title,
                         description: description,
                         createdBy: userId,
                     })];
             case 1:
-                data = _c.sent();
+                data = _d.sent();
                 return [4 /*yield*/, data.save()];
             case 2:
-                _c.sent();
-                res.send('new');
+                _d.sent();
+                res.send('Blog successfully uploaded!');
                 return [3 /*break*/, 4];
             case 3:
-                err_1 = _c.sent();
+                err_1 = _d.sent();
                 res.json(err_1);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
+        }
+    });
+}); });
+blogRouter.get('/all', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, blog_1.default.find().populate('createdBy')];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                res.status(403).json(err_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+blogRouter.get('/:id', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userBlogs, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, blog_1.default.find({ createdBy: req.params.id })];
+            case 1:
+                userBlogs = _a.sent();
+                res.json(userBlogs);
+                return [3 /*break*/, 3];
+            case 2:
+                err_3 = _a.sent();
+                res.status(403).json(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+blogRouter.get('/user/:blogId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var blogg, err_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, blog_1.default.findOne({ _id: req.params.blogId })];
+            case 1:
+                blogg = _a.sent();
+                res.json(blogg);
+                return [3 /*break*/, 3];
+            case 2:
+                err_4 = _a.sent();
+                res.status(403).json(err_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });

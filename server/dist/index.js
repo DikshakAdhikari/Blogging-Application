@@ -10,6 +10,7 @@ var user_1 = __importDefault(require("./routes/user"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var blog_1 = __importDefault(require("./routes/blog"));
 var cors_1 = __importDefault(require("cors"));
+var comment_1 = __importDefault(require("./routes/comment"));
 dotenv_1.default.config();
 (0, connect_1.default)();
 var app = (0, express_1.default)();
@@ -19,6 +20,8 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
+app.use(express_1.default.static('public')); //It means our image will be inside public(root) folder i.e- uploads/img_name -> http://localhost:3000/uploads/img_name
 app.use('/user', user_1.default);
 app.use('/blog', blog_1.default);
+app.use('/comment', comment_1.default);
 app.listen(process.env.PORT, function () { return console.log("Server listening on port ".concat(process.env.PORT)); });

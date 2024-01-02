@@ -91,8 +91,8 @@ userRouter.post('/signin', function (req, res) { return __awaiter(void 0, void 0
                 return [4 /*yield*/, user_1.default.matchPasswordAndGiveToken(isValidUser._id, email, isValidUser.role, password)];
             case 2:
                 token = _b.sent();
-                res.cookie('token', token, { secure: true, httpOnly: true, path: '/' });
-                res.send('Cookie has been sent!');
+                res.cookie('token', token, { secure: true, httpOnly: false, path: '/' });
+                res.json(isValidUser);
                 return [3 /*break*/, 4];
             case 3:
                 err_2 = _b.sent();

@@ -31,6 +31,8 @@ export default function Home() {
     }
     fun()
   },[])
+
+  
   return (
     <div>
     <Navbar />
@@ -48,7 +50,7 @@ export default function Home() {
     <div className="  p-5 flex flex-col gap-4">
         {/* <img src={`http://localhost:3002/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
         <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
-        <button onClick={()=> router.push(`/viewBlog/${val._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
+        <button onClick={()=> router.push(`/viewBlog/${val._id}/${val.createdBy._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
         </div>
       </div>
     ))}   

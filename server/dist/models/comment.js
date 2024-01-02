@@ -24,24 +24,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose_1 = __importStar(require("mongoose"));
-var blogSchema = new mongoose_1.default.Schema({
-    imageUrl: {
+var commentSchema = new mongoose_1.default.Schema({
+    comments: {
         type: String,
-        required: false
     },
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    createdBy: {
+    blogId: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+        ref: 'blog'
+    },
+    userId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'user'
     }
 }, { timestamps: true });
-var blog = mongoose_1.default.model('blog', blogSchema);
-exports.default = blog;
+var comment = mongoose_1.default.model('comment', commentSchema);
+exports.default = comment;

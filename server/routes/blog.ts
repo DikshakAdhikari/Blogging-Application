@@ -42,6 +42,7 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     }
 })
 
+
 blogRouter.get('/all' , async(req, res)=> {
     try{
         const data= await blog.find().populate('createdBy')
@@ -64,7 +65,7 @@ blogRouter.get('/:id', verifyJwt, async(req,res)=> {
 
 blogRouter.get('/user/:blogId', async (req,res)=> {
     try{
-        const blogg = await blog.findById(req.params.blogId)
+        const blogg = await blog.findOne({_id:req.params.blogId})
         res.json(blogg)
     }catch(err){
         res.status(403).json(err)
