@@ -37,7 +37,7 @@ export default function Home() {
     <div>
     <Navbar />
     <div className=" flex justify-center h-[100%]">
-  <div className=" grid grid-cols-3  p-5 gap-10">
+  <div className=" grid grid-cols-1 md:grid-cols-3  p-5 gap-10">
 
      {image?.map((val:any)=> (
     <div className="  rounded-lg hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
@@ -51,6 +51,12 @@ export default function Home() {
         {/* <img src={`http://localhost:3002/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
         <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
         <button onClick={()=> router.push(`/viewBlog/${val._id}/${val.createdBy._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
+        <div className=" flex justify-between gap-3">
+        <div className=" italic text-gray-500 font-bold">Created By- {val.createdBy.fullName}</div>
+        <div className=" italic text-gray-500 font-bold">{val.createdAt.split('T')[0]}</div>
+        </div>
+        
+        
         </div>
       </div>
     ))}   

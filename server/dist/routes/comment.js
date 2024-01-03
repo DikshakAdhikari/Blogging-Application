@@ -42,14 +42,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var comment_1 = __importDefault(require("../models/comment"));
 var commentRouter = express_1.default.Router();
-commentRouter.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+commentRouter.post('/:blogId/:userId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var comments, postComment, err_1;
     return __generator(this, function (_a) {
-        console.log(req);
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                comments = req.body.comments;
+                return [4 /*yield*/, comment_1.default.create({
+                        comments: comments,
+                        blogId: req.params.blogId, userId: req.params.userId
+                    })];
+            case 1:
+                postComment = _a.sent();
+                return [4 /*yield*/, postComment.save()];
+            case 2:
+                _a.sent();
+                res.status(200).json('Comment successfully made!');
+                return [3 /*break*/, 4];
+            case 3:
+                err_1 = _a.sent();
+                res.status(403).json(err_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
     });
 }); });
 commentRouter.get('/:blogId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userComments, err_1;
+    var userComments, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -60,8 +80,8 @@ commentRouter.get('/:blogId', function (req, res) { return __awaiter(void 0, voi
                 res.json(userComments);
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _a.sent();
-                res.status(403).json(err_1);
+                err_2 = _a.sent();
+                res.status(403).json(err_2);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

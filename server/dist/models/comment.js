@@ -27,6 +27,7 @@ var mongoose_1 = __importStar(require("mongoose"));
 var commentSchema = new mongoose_1.default.Schema({
     comments: {
         type: String,
+        required: true
     },
     blogId: {
         type: mongoose_1.Schema.Types.ObjectId,

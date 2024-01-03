@@ -4,6 +4,7 @@ import Navbar from '../../Navbar'
 import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
+import { ProfileLogo } from '@/app/Logo'
 interface pageProps{
   params: {id:string}
 }
@@ -98,10 +99,11 @@ const page:FC<pageProps> = ({params}) => {
         <input className=' text-gray-700 p-3 border-[1px] rounded-lg border-gray-500' type="text" onChange={(e)=> setComment(e.target.value)}  />
         <button onClick={()=>handleClick()} className=' p-3  w-[8vw] hover:bg-orange-500 bg-green-600 text-white rounded-lg'>Post Comment</button>
       </div>
-      <div>
+      <div className=' flex flex-col-reverse'>
         {getUserComments.map((val)=>(
-          <div>
-            {val.comments}
+          <div className='flex gap-3 items-center p-2'>
+            <ProfileLogo />
+            <div className=' text-[1.2rem] text-gray-700'>{val.comments}</div>
           </div>
         ))}
       </div>

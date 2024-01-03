@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Navbar from "../Navbar"
 import { useSelector } from 'react-redux';
 import { RootState } from "@/app/store/store";
+import { DeleteLogo } from "@/app/Logo";
 
 
 export default function Page() {
@@ -35,7 +36,24 @@ export default function Page() {
       }   
     }
     fun()
-  },[])
+  },[]);
+
+  const handleDelete= async(blogId)=> {
+    try{
+      const res= await fetch(`http://localhost:3002/blog/remove/${blogId}`,{
+        method:"DELETE",
+        credentials:'include',
+        headers:{
+          'Content-Type':'application/json',
+        }
+      })
+      console.log(res);
+      
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
   return (
     <div>
       <Navbar />
@@ -53,7 +71,10 @@ export default function Page() {
       <div className="  p-5 flex flex-col gap-4">
           {/* <img src={`http://localhost:3001/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
           <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
-          <button className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
+          <div className=" flex justify-between items-center p-2">
+          <button className=" w-[5vw]  hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
+          <div onClick={()=>handleDelete(val._id)} className=" cursor-pointer"><DeleteLogo /></div>
+          </div>
           </div>
         </div>
       ))}   

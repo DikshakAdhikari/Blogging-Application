@@ -72,4 +72,14 @@ blogRouter.get('/user/:blogId', async (req,res)=> {
     }
 })
 
+blogRouter.delete('/remove/:blogId', verifyJwt, async (req,res)=> {
+    try{
+        const blogToDelete= await blog.findOneAndDelete({_id:req.params.blogId})      
+        res.json('blog deleted successful!')
+        
+    }catch(err){
+        res.status(403).json(err)
+    }
+})
+
 export default blogRouter

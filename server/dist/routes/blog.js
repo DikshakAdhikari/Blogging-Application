@@ -147,4 +147,24 @@ blogRouter.get('/user/:blogId', function (req, res) { return __awaiter(void 0, v
         }
     });
 }); });
+blogRouter.delete('/remove/:blogId', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var blogToDelete, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, blog_1.default.findOneAndDelete({ _id: req.params.blogId })];
+            case 1:
+                blogToDelete = _a.sent();
+                console.log(blogToDelete);
+                res.json('blog deleted successful!');
+                return [3 /*break*/, 3];
+            case 2:
+                err_5 = _a.sent();
+                res.status(403).json(err_5);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = blogRouter;
