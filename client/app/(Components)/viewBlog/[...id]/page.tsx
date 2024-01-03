@@ -14,6 +14,7 @@ const page:FC<pageProps> = ({params}) => {
   const [comment, setComment]= useState('')
   const [getUserComments, setUserComments]=useState([])
   const [toggle, setToggle]= useState(false)
+  const [commentCount, setCommentCount]= useState(0)
 
   
   const handleClick= async()=> {
@@ -29,7 +30,6 @@ const page:FC<pageProps> = ({params}) => {
         throw new Error('Network error!');
       }
       const data= await res.json();
-
     }catch(err){
       console.log(err);
       
@@ -63,6 +63,7 @@ const page:FC<pageProps> = ({params}) => {
         }
         const data1= await res1.json()
         setUserComments(data1)
+        setCommentCount(data1.length)
         setToggle(!toggle)
          
         }
@@ -95,7 +96,7 @@ const page:FC<pageProps> = ({params}) => {
         {blog.description}
       </pre>
       <div className=' flex flex-col gap-4 p-4'>
-        <div className=' text-[2.4rem] font-bold text-blue-900'>Comments</div>
+        <div className=' text-[2.4rem] font-bold text-blue-900'>Comments({commentCount})</div>
         <input className=' text-gray-700 p-3 border-[1px] rounded-lg border-gray-500' type="text" onChange={(e)=> setComment(e.target.value)}  />
         <button onClick={()=>handleClick()} className=' p-3  w-[8vw] hover:bg-orange-500 bg-green-600 text-white rounded-lg'>Post Comment</button>
       </div>
