@@ -69,7 +69,7 @@ const page:FC<pageProps> = ({params}) => {
         }
       }catch(err){
         console.log(err);
-        
+        //error handled
       }
     }
     fun()
