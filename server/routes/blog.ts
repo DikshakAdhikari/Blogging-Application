@@ -25,7 +25,7 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     try{
         const {title , description}= req.body
          const userId= req.headers['userId']
-         console.log(req.file?.filename);
+         //console.log(req.file?.filename);
          
         const data = await blog.create({
             imageUrl: `/uploads/${req.file?.filename}`,
@@ -42,6 +42,23 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     }
 })
 
+blogRouter.get('/blogs',async(req,res)=> {
+    try{
+    
+        const limit= req.query.limit
+        const page= req.query.page
+        if(!limit || !page){
+            return
+        }
+         const limitNumber= +limit || 5 //converting string to number
+         const pageNumber= +page-1 || 0
+         const skipDocuments= pageNumber*limitNumber
+         const content= await blog.find().skip(skipDocuments).limit(limitNumber)
+         res.json(content)
+    }catch(err){
+        res.status(403).json(err)
+    }
+})
 
 blogRouter.get('/all' , async(req, res)=> {
     try{
@@ -81,5 +98,6 @@ blogRouter.delete('/remove/:blogId', verifyJwt, async (req,res)=> {
         res.status(403).json(err)
     }
 })
+
 
 export default blogRouter
