@@ -47,13 +47,28 @@ blogRouter.get('/blogs',async(req,res)=> {
     
         const limit= req.query.limit
         const page= req.query.page
-        if(!limit || !page){
+        
+        let sort:any= req.query.sort || 'title'
+        if(!limit || !page ){
             return
         }
          const limitNumber= +limit || 5 //converting string to number
          const pageNumber= +page-1 || 0
          const skipDocuments= pageNumber*limitNumber
-         const content= await blog.find().skip(skipDocuments).limit(limitNumber)
+
+         if(typeof req.query.sort === "string"){
+             sort= req.query.sort.split(",")
+         }
+
+         let sortBy:any= {}
+         if(sort[1]){
+            sortBy[sort[0]]= sort[1]
+         }else{
+            sortBy[sort[0]]= "asc"
+         }
+         console.log(sortBy);
+         
+         const content= await blog.find().skip(skipDocuments).limit(limitNumber).sort(sortBy)
          res.json(content)
     }catch(err){
         res.status(403).json(err)
@@ -98,6 +113,8 @@ blogRouter.delete('/remove/:blogId', verifyJwt, async (req,res)=> {
         res.status(403).json(err)
     }
 })
+
+
 
 
 export default blogRouter
