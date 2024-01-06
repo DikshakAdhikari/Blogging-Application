@@ -26,14 +26,14 @@ const Navbar = () => {
         <div className=' items-center flex gap-5'>
           {!token ? (
             <div className=' flex gap-5'>
-              <button onClick={()=> router.push('/signup')} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>Signup</button>
-            <button onClick={handleClick} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>Signin</button>
+              <button onClick={()=> router.push('/signup')} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>Signup</button>
+            <button onClick={handleClick} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>Signin</button>
             </div>
           ) : (
             <div className=' flex gap-5'>
-              <button onClick={()=> router.push('/createBlog')} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>Create Blog</button>
-              <button onClick={()=> router.push('/myBlogs')} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>My Blogs</button>
-              <button onClick={handleLogout} className=' bg-green-600 text-white px-5  p-3 rounded-lg hover:bg-red-700'>Logout</button>
+              <button onClick={()=> router.push('/createBlog')} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>Create Blog</button>
+              <button onClick={()=> router.push('/myBlogs')} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>My Blogs</button>
+              <button onClick={handleLogout} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>Logout</button>
             </div>
           )
         }
