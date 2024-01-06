@@ -46,9 +46,9 @@ export default function Home() {
   return (
     <div className=" flex flex-col">
     <Navbar />
-    <div className=" flex justify-center h-[100%] ">
+    <div className=" flex flex-col items-center  h-[100%] ">
+       <input className=" m-4 mt-6 p-3 outline-none border-2 border-gray-200 text-gray-700 w-[30vw] rounded-lg" placeholder="Search Blog Title" type="text" />
   <div className=" grid grid-cols-1 md:grid-cols-3  p-5 gap-10">
-
      {image?.map((val:any)=> (
     <div className="  rounded-lg hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
      <Image className=" rounded-lg rounded-b-none object-fill w-full h-52"
@@ -62,7 +62,7 @@ export default function Home() {
         <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
         <button onClick={()=> router.push(`/viewBlog/${val._id}/${val.createdBy._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
         <div className=" flex justify-between gap-3">
-        <div className=" italic text-gray-500 font-bold">Created By- {val.createdBy.fullName}</div>
+        <div className=" italic text-gray-500 font-bold">Blogger- {val.createdBy.fullName}</div>
         <div className=" italic text-gray-500 font-bold">{val.createdAt.split('T')[0]}</div>
         </div>
         </div>
@@ -70,7 +70,7 @@ export default function Home() {
     ))}   
 </div>
 </div>
-<div className=" flex p-5 justify-center">
+<div className=" flex p-3 pb-8 justify-center">
 <Pagination page={page} setPage={setPage} />
 </div>
 </div>

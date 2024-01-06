@@ -21,7 +21,7 @@ const Navbar = () => {
   })
 
   return (
-    <div className=' items-center px-10 justify-between flex gap-3 p-3 bg-black'>
+    <div className=' items-center px-10 justify-between flex gap-3 p-3 py-4 bg-black'>
         <div onClick={()=> router.push('/')} className=' cursor-pointer text-[1.8rem] hover:text-yellow-500 font-semibold text-white'>Snif Blog</div>
         <div className=' items-center flex gap-5'>
           {!token ? (
