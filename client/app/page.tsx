@@ -3,14 +3,17 @@ import { useEffect, useState } from "react"
 import Image from 'next/image'
 import Navbar from "./(Components)/Navbar"
 import { useRouter } from "next/navigation"
+import Pagination from './(Components)/Pagination'
 
 export default function Home() {
   const [image, setImage]= useState<any>([])
+  const [limit , setLimit]= useState('')
+  const [page , setPage]= useState(1)
   const router= useRouter()
   useEffect(()=> {
     const fun = async()=> {
       try{
-        const res= await fetch('http://localhost:3002/blog/all',{
+        const res= await fetch(`http://localhost:3002/blog/blogs?page=${page}&limit=5`,{
         method:"GET",
         credentials:"include", //This is very important in the case when we want to send cookies with the request
         headers:{
@@ -20,9 +23,15 @@ export default function Home() {
       if(!res.ok){
         throw new Error('Network Error!')
       }
-      // console.log(Cookies.get('token'));
+     
       const data= await res.json()
-      //console.log(data[0].createdBy.fullName);
+      //console.log(data);
+      if(page<1 && data.length === 0){
+        setPage(page+1)
+      }
+      if(page>0 && data.length === 0){
+        setPage(page-1)
+      }
       setImage(data)
       
       }catch(err){
@@ -30,13 +39,14 @@ export default function Home() {
       }   
     }
     fun()
-  },[])
+  },[page])
 
+  //console.log(page);
   
   return (
-    <div>
+    <div className=" flex flex-col">
     <Navbar />
-    <div className=" flex justify-center h-[100%]">
+    <div className=" flex justify-center h-[100%] ">
   <div className=" grid grid-cols-1 md:grid-cols-3  p-5 gap-10">
 
      {image?.map((val:any)=> (
@@ -55,14 +65,14 @@ export default function Home() {
         <div className=" italic text-gray-500 font-bold">Created By- {val.createdBy.fullName}</div>
         <div className=" italic text-gray-500 font-bold">{val.createdAt.split('T')[0]}</div>
         </div>
-        
-        
         </div>
       </div>
     ))}   
 </div>
 </div>
+<div className=" flex p-5 justify-center">
+<Pagination page={page} setPage={setPage} />
 </div>
-   
-      )
+</div>
+  )
 }

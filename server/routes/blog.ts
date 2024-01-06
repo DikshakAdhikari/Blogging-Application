@@ -46,9 +46,15 @@ blogRouter.get('/blogs',async(req,res)=> {
     try{
     
         const limit= req.query.limit
-        const page= req.query.page
+        const page= req.query.page  
+        //console.log(limit,page);
+        if(!req.query.sort){
+            req.query.sort = 'title'
+        }
         
-        let sort:any= req.query.sort || 'title'
+        let sort= req.query.sort || 'title'
+        //console.log(typeof sort);
+        
         if(!limit || !page ){
             return
         }
@@ -56,19 +62,21 @@ blogRouter.get('/blogs',async(req,res)=> {
          const pageNumber= +page-1 || 0
          const skipDocuments= pageNumber*limitNumber
 
-         if(typeof req.query.sort === "string"){
+         if(typeof req.query.sort === 'string'){
              sort= req.query.sort.split(",")
          }
 
          let sortBy:any= {}
+         //@ts-ignore
          if(sort[1]){
+            //@ts-ignore
             sortBy[sort[0]]= sort[1]
          }else{
+            //@ts-ignore
             sortBy[sort[0]]= "asc"
          }
-         console.log(sortBy);
-         
-         const content= await blog.find().skip(skipDocuments).limit(limitNumber).sort(sortBy)
+         //console.log(sortBy); //{ title: 'asc' } or {title: 'desc'}
+         const content= await blog.find().skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy)
          res.json(content)
     }catch(err){
         res.status(403).json(err)
