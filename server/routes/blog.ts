@@ -5,6 +5,49 @@ import blog from '../models/blog'
 import path from 'path'
 const blogRouter= express.Router()
 
+blogRouter.get('/blogs',async(req,res)=> {
+    try{
+    
+        const limit= req.query.limit
+        const page= req.query.page 
+        const searchText= req.query.search || ""        
+        console.log(searchText);
+        if(!req.query.sort){
+            req.query.sort = 'title'
+        }
+        
+        let sort= req.query.sort || 'title'
+       
+        
+        if(!limit || !page ){
+            return
+        }
+         const limitNumber= +limit || 5 //converting string to number
+         const pageNumber= +page-1 || 0
+         const skipDocuments= pageNumber*limitNumber
+
+         if(typeof req.query.sort === 'string'){
+             sort= req.query.sort.split(",")
+         }
+
+         let sortBy:any= {}
+         //@ts-ignore
+         if(sort[1]){
+            //@ts-ignore
+            sortBy[sort[0]]= sort[1]
+         }else{
+            //@ts-ignore
+            sortBy[sort[0]]= "asc"
+         }
+         //console.log(sortBy); //{ title: 'asc' } or {title: 'desc'}
+         
+         const content= await blog.find({title:{$regex:searchText , $options:"i"}}).skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy)
+         //console.log(content);   
+         res.json(content)
+    }catch(err){
+        res.status(403).json(err)
+    }
+})
 //  blogRouter.use(express.static(path.resolve('./public/uploads/')));
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -42,46 +85,7 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     }
 })
 
-blogRouter.get('/blogs',async(req,res)=> {
-    try{
-    
-        const limit= req.query.limit
-        const page= req.query.page  
-        //console.log(limit,page);
-        if(!req.query.sort){
-            req.query.sort = 'title'
-        }
-        
-        let sort= req.query.sort || 'title'
-        //console.log(typeof sort);
-        
-        if(!limit || !page ){
-            return
-        }
-         const limitNumber= +limit || 5 //converting string to number
-         const pageNumber= +page-1 || 0
-         const skipDocuments= pageNumber*limitNumber
 
-         if(typeof req.query.sort === 'string'){
-             sort= req.query.sort.split(",")
-         }
-
-         let sortBy:any= {}
-         //@ts-ignore
-         if(sort[1]){
-            //@ts-ignore
-            sortBy[sort[0]]= sort[1]
-         }else{
-            //@ts-ignore
-            sortBy[sort[0]]= "asc"
-         }
-         //console.log(sortBy); //{ title: 'asc' } or {title: 'desc'}
-         const content= await blog.find().skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy)
-         res.json(content)
-    }catch(err){
-        res.status(403).json(err)
-    }
-})
 
 blogRouter.get('/all' , async(req, res)=> {
     try{

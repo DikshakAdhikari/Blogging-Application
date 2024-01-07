@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import left from '../(assets)/left.png'
 import right from '../(assets)/right.png'
 import Image from 'next/image'
 
-const Pagination = ({page,setPage}) => {
+const Pagination = ({data, page,setPage}) => {
+  // useEffect(()=> {
+  //   if( data.length === 0){
+  //     setPage((prev)=> {
+  //       return 1
+  //     })
+  //   }
+  // },[page])
   return (
     <div className=' flex items-center gap-4'>
       <Image onClick={()=> {
@@ -19,6 +26,9 @@ const Pagination = ({page,setPage}) => {
 
       <Image onClick={()=> {
         setPage((prev)=> {
+          if(data.length === 0){
+            return prev-1
+          }
             return prev+1
         })
       }} className=' cursor-pointer' height={55} src={right} />
