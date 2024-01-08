@@ -5,7 +5,7 @@ import blog from '../models/blog'
 import path from 'path'
 const blogRouter= express.Router()
 
-blogRouter.get('/blogs',async(req,res)=> {
+blogRouter.get('/blogs', verifyJwt,async(req,res)=> {
     try{
         const limit= req.query.limit
         const page= req.query.page 

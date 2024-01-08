@@ -31,6 +31,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div className=' flex gap-5'>
+              <button onClick={()=> router.push('/all-blogs')} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>All Blogs</button>
               <button onClick={()=> router.push('/createBlog')} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>Create Blog</button>
               <button onClick={()=> router.push('/myBlogs')} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>My Blogs</button>
               <button onClick={handleLogout} className='  text-white rounded-lg font-semibold text-[1.2rem] hover:text-red-700'>Logout</button>
