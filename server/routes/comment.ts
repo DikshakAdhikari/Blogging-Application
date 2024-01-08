@@ -21,7 +21,7 @@ commentRouter.post('/:blogId/:userId', async(req,res)=> {
 
 commentRouter.get('/:blogId', async(req,res)=> {
     try{
-        const userComments = await comment.find({blogId: req.params.blogId})
+        const userComments = await comment.find({blogId: req.params.blogId}).populate('userId')
         res.json(userComments)
     }catch(err){
         res.status(403).json(err)

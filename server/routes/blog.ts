@@ -124,8 +124,8 @@ blogRouter.get('/:id', verifyJwt, async(req,res)=> {
 
 blogRouter.get('/user/:blogId', async (req,res)=> {
     try{
-        const blogg = await blog.findOne({_id:req.params.blogId})
-        res.json(blogg)
+        const userName= await blog.findOne({_id:req.params.blogId}).populate('createdBy')
+        res.json(userName)
     }catch(err){
         res.status(403).json(err)
     }

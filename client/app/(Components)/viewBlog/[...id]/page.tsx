@@ -30,6 +30,7 @@ const page:FC<pageProps> = ({params}) => {
         throw new Error('Network error!');
       }
       const data= await res.json();
+      setToggle(true)
     }catch(err){
       console.log(err);
       
@@ -49,6 +50,7 @@ const page:FC<pageProps> = ({params}) => {
         }
         const data= await res.json()
         setBlog(data)
+      
         if(data){
           const res1= await fetch(`http://localhost:3002/comment/${params.id[0]}`,{
           method:"GET",
@@ -62,9 +64,11 @@ const page:FC<pageProps> = ({params}) => {
           throw new Error('Network connection error!')
         }
         const data1= await res1.json()
+        console.log(data1);
+        
         setUserComments(data1)
         setCommentCount(data1.length)
-        setToggle(!toggle)
+        setToggle(false)
          
         }
       }catch(err){
@@ -102,9 +106,12 @@ const page:FC<pageProps> = ({params}) => {
       </div>
       <div className=' flex flex-col-reverse'>
         {getUserComments.map((val)=>(
-          <div className='flex gap-3 items-center p-2'>
+            <div className=' flex gap-3 items-center'>
             <ProfileLogo />
-            <div className=' text-[1.2rem] text-gray-700'>{val.comments}</div>
+          <div className='flex flex-col  justify-center p-2'>
+            <div className=' font-medium text-[1.4rem] text-blue-900'>{val?.userId?.fullName}</div>
+            <div className=' text-[1.2rem] text-gray-950 '>{val.comments}</div>
+            </div>
           </div>
         ))}
       </div>

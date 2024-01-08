@@ -37,16 +37,29 @@ userRouter.post('/signin', async (req, res)=> {
     }
 })
 
-userRouter.get('/k', verifyJwt, async(req,res)=> {
-    const id= req.headers['userId']
-    const rolee= req.headers['role']
-    const token = req.cookies['token']
-        console.log(token);
-    const obj={
-        id, rolee, token
+
+userRouter.get('/:id', verifyJwt, async(req,res)=> {
+    try{    
+        const getUser = await user.findById(req.params.id)
+        if(getUser){
+            return res.json(req.headers['userId'])
+        }
+        return res.status(402).json("Such user with userId does not exists!")
+    }catch(err){
+        res.status(404).json(err)
     }
-    res.send(obj)
-} )
+})
+
+// userRouter.get('/k', verifyJwt, async(req,res)=> {
+//     const id= req.headers['userId']
+//     const rolee= req.headers['role']
+//     const token = req.cookies['token']
+//         console.log(token);
+//     const obj={
+//         id, rolee, token
+//     }
+//     res.send(obj)
+// } )
 
 
 
