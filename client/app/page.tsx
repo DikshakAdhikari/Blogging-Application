@@ -17,9 +17,6 @@ export default function Home() {
     const fun = async()=> {
  
       try{
-        console.log(page);
-        console.log(search);
-        
         const res= await fetch(`http://localhost:3002/blog/blogs?page=${page}&limit=5&sort=createdAt&search=${search}`,{
         method:"GET",
         credentials:"include", //This is very important in the case when we want to send cookies with the request
@@ -32,8 +29,8 @@ export default function Home() {
       }
      
       const data= await res.json()
-      console.log(data);
-
+      //console.log(data);
+   
       setcardData(data)
       
       }catch(err){
@@ -43,6 +40,11 @@ export default function Home() {
     fun()
   },[search,page])
 
+  useEffect(()=>{
+    if(search != ""){
+      setPage(1)
+    }
+  },[search])
 
   return (
     <div className=" flex flex-col">
