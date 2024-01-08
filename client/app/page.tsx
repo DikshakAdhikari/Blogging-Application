@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import Pagination from './(Components)/Pagination'
 
 export default function Home() {
-  const [image, setImage]= useState<any>([])
+  const [cardData, setcardData]= useState<any>([])
   const [limit , setLimit]= useState('')
   const [page , setPage]= useState(1)
   const [search, setSearch]= useState("")
@@ -18,6 +18,7 @@ export default function Home() {
  
       try{
         console.log(page);
+        console.log(search);
         
         const res= await fetch(`http://localhost:3002/blog/blogs?page=${page}&limit=5&sort=createdAt&search=${search}`,{
         method:"GET",
@@ -32,20 +33,8 @@ export default function Home() {
      
       const data= await res.json()
       console.log(data);
-   
-      // if(page<1 && data.length === 0){
-      //   setPage(page+1)
-      // }
-      // if(page>0 && data.length === 0){
-      //   setPage(page-1)
-      // }
-      if(search === "" && data.length === 0){
-        setPage((prev)=>{
-          return prev-1
-        })
-      }
 
-      setImage(data)
+      setcardData(data)
       
       }catch(err){
         console.log(err); 
@@ -61,9 +50,9 @@ export default function Home() {
     <div className=" flex flex-col items-center  h-[100%] ">
        <input onChange={(e)=> setSearch(e.target.value)} className=" shadow-md m-4 mt-6 p-3 outline-none border-2 border-gray-200 text-gray-700 w-[30vw] rounded-lg" placeholder="Search Blog Title" type="text" />
   
-    {(search!=""&& image.length === 0) ? "Page not found" : 
+    {(search!=""&& cardData.length === 0) ? "Page not found" : 
     <div className=" grid grid-cols-1 md:grid-cols-3  p-5 gap-10">
-     {image?.map((val:any)=> (
+     {cardData?.content?.map((val:any)=> (
     <div className="  rounded-lg hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
      <Image className=" rounded-lg rounded-b-none object-fill w-full h-52"
     src={`http://localhost:3002/${val.imageUrl}`}
@@ -87,9 +76,7 @@ export default function Home() {
 </div>
 
 <div className=" flex p-3 pb-8 justify-center">
-  {(search === "" && image.length>0) && 
-<Pagination data={image} page={page} setPage={setPage} />
-}
+<Pagination totalDocuments={cardData.docsCount} limit={cardData.limit} page={page} setPage={setPage} />
 </div>
 
 </div>

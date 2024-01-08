@@ -7,7 +7,6 @@ const blogRouter= express.Router()
 
 blogRouter.get('/blogs',async(req,res)=> {
     try{
-    
         const limit= req.query.limit
         const page= req.query.page 
         const searchText= req.query.search || ""        
@@ -25,7 +24,8 @@ blogRouter.get('/blogs',async(req,res)=> {
          const limitNumber= +limit || 5 //converting string to number
          const pageNumber= +page-1 || 0
          const skipDocuments= pageNumber*limitNumber
-
+            console.log("skip", skipDocuments);
+            
          if(typeof req.query.sort === 'string'){
              sort= req.query.sort.split(",")
          }
@@ -42,8 +42,17 @@ blogRouter.get('/blogs',async(req,res)=> {
          //console.log(sortBy); //{ title: 'asc' } or {title: 'desc'}
          
          const content= await blog.find({title:{$regex:searchText , $options:"i"}}).skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy)
-         //console.log(content);   
-         res.json(content)
+         console.log(content); 
+         const docsCount= await blog.countDocuments({
+            title: {$regex:searchText , $options:'i'}
+         })  
+         console.log(docsCount);
+         
+         res.json({
+            content,
+            docsCount,
+            limit:limitNumber
+         })
     }catch(err){
         res.status(403).json(err)
     }
