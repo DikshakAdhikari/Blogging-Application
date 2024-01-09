@@ -11,7 +11,7 @@ interface pageProps{
 
 const page:FC<pageProps> = ({params}) => {
   const [blog, setBlog] = useState()
-  const [comment, setComment]= useState('')
+  const [comments, setComment]= useState('')
   const [getUserComments, setUserComments]=useState([])
   const [toggle, setToggle]= useState(false)
   const [commentCount, setCommentCount]= useState(0)
@@ -19,12 +19,14 @@ const page:FC<pageProps> = ({params}) => {
   
   const handleClick= async()=> {
     try{
-      const res= await fetch(`http://localhost:3002/comment/${params.id[0]}/${params.id[1]}`,{
+      
+      const res= await fetch(`http://localhost:3002/comment/${params.id[0]}`,{
         method:"POST",
+        credentials:'include',
         headers:{
           'Content-Type':'application/json'
         },
-        body:JSON.stringify({"comments":comment})
+        body:JSON.stringify({comments})
       });
       if(!res.ok){
         throw new Error('Network error!');

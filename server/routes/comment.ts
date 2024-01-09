@@ -4,11 +4,11 @@ import comment from '../models/comment'
 const commentRouter= express.Router()
 
 
-commentRouter.post('/:blogId/:userId', async(req,res)=> {
+commentRouter.post('/:blogId', verifyJwt, async(req,res)=> {
     try{
      const {comments} = req.body
      const postComment= await comment.create({
-        comments , blogId: req.params.blogId , userId: req.params.userId
+        comments , blogId: req.params.blogId , userId: req.headers['userId']
     })
     await postComment.save()
     res.status(200).json('Comment successfully made!')
