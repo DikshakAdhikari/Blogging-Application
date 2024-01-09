@@ -2,20 +2,20 @@
 import { useEffect, useState } from "react"
 import Image from 'next/image'
 import Navbar from "../Navbar"
-import { useSelector } from 'react-redux';
-import { RootState } from "@/app/store/store";
+import  Swal from 'sweetalert2'
 import { DeleteLogo } from "@/app/Logo";
 
 
 export default function Page() {
   const [image, setImage]= useState<any>([])
-  const userId = useSelector((state: RootState) => state.user.user);
+  const [deleteState, setDeleteState]=useState(false)
+
   //console.log(userId);
   
   useEffect(()=> {
     const fun = async()=> {
       try{
-        const res= await fetch(`http://localhost:3002/blog/${userId}`,{
+        const res= await fetch(`http://localhost:3002/blog/userBlog`,{
         method:"GET",
         credentials:"include", //This is very important in the case when we want to send cookies with the request
         headers:{
@@ -30,24 +30,51 @@ export default function Page() {
       
       //console.log(data[0].createdBy.fullName);
       setImage(data)
+      setDeleteState(false)
       
       }catch(err){
         console.log(err); 
       }   
     }
     fun()
-  },[]);
+  },[deleteState]);
 
   const handleDelete= async(blogId)=> {
     try{
-      const res= await fetch(`http://localhost:3002/blog/remove/${blogId}`,{
-        method:"DELETE",
-        credentials:'include',
-        headers:{
-          'Content-Type':'application/json',
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(async(result) => {
+        if (result.isConfirmed) {
+          const res= await fetch(`http://localhost:3002/blog/remove/${blogId}`,{
+            method:"DELETE",
+            credentials:'include',
+            headers:{
+              'Content-Type':'application/json',
+            }
+          })
+          if(!res.ok){
+            throw new Error('Network error while deleting');
+          }
+          const data= await res.json()
+          if(data){
+            setDeleteState(true)
+          }
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
         }
-      })
-      console.log(res);
+      });
+
+   
       
     }catch(err){
       console.log(err);

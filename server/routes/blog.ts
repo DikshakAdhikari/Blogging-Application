@@ -111,9 +111,9 @@ blogRouter.get('/all' , async(req, res)=> {
     }
 })
 
-blogRouter.get('/:id', verifyJwt, async(req,res)=> {
+blogRouter.get('/userBlog', verifyJwt, async(req,res)=> {
     try{
-        const userBlogs= await blog.find({createdBy:req.params.id}) 
+        const userBlogs= await blog.find({createdBy:req.headers['userId']}) 
         res.json(userBlogs)
         
     }catch(err){

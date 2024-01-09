@@ -2,18 +2,18 @@
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import Navbar from "../Navbar"
-
+import  Swal from 'sweetalert2'
 
 const Page = () => {
-   const [file, setFile]= useState<File|null>(null)
-  const [title, settitle]= useState('')
-  const [description, setDescription] = useState('')
+  const [file, setFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage]= useState<any>([])
-  const [hydrated, setHydrated] = useState(false);
+  const [error, setError]= useState('')
 
  
   useEffect(()=> {
-    setHydrated(true);
+  
     const fun = async()=> {
       try{
         const res= await fetch('http://localhost:3002/blog/all',{
@@ -38,15 +38,25 @@ const Page = () => {
     fun()
   },[])
 
-  if (!hydrated) {
-    // Returns null on first render, so the client and server match
-    return null;
-}
-  const handleFileChange= (e:ChangeEvent<HTMLInputElement>)=> {
-    if(e.target.files !== null && e.target.files.length > 0 ){
-        setFile(e.target.files[0])
-    }     
-  }
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+      const allowedExtensions = ["png", "jpeg", "jpg", "svg","webp"];
+      const fileExtension = selectedFile.name.split('.').pop()?.toLowerCase();
+  
+      
+      if (fileExtension && allowedExtensions.includes(fileExtension)) {
+        setFile(selectedFile);
+        setError('')
+      } else {      
+        console.error("Invalid file type. Please select a .png, .jpg, or .svg file.");
+        setError("Invalid file type. Please select a .png, .jpg, .svg or webp file.")
+        // Optionally, you can reset the file input to clear the selection
+        e.target.value = '';
+      }
+    }
+  };
 
   const handleSubmit = async (e:FormEvent)=> {
     e.preventDefault()
@@ -55,7 +65,7 @@ const Page = () => {
       formData.append('file', file)
     }
     formData.append('title', title)
-    formData.append('description', description)
+    formData.append('description', content)
 
     try{
       const res= await fetch('http://localhost:3002/blog/', {
@@ -64,32 +74,78 @@ const Page = () => {
 
         body:formData
       })
+
+      if(!res.ok){
+        throw new Error('Network problem while creating blog!');
+      }
+      const data= await res.json()
+      if(data){
+        Swal.fire("Blog saved successfully!");
+      }
+
     }catch(err){
       console.log(err);
       
     }  
   }
   return (
-    <>
-    <Navbar />
-   <div className=" h-[100vh] p-4"> 
-
-    <form   onSubmit={handleSubmit} className="  pt-20  items-center justify-center flex flex-col gap-4" >
-    <div className=" text-[1.7rem] text-gray-800">Form</div>
-      <input type="file" required onChange={handleFileChange} className="  w-[40vw]  p-3"  />
-       <input type="text" required onChange={(e)=> settitle(e.target.value)} placeholder="title" className=" w-[40vw] border-[1px] border-gray-500 p-3"  />
-       <textarea className=" p-4" placeholder="body" onChange={(e)=> setDescription(e.target.value)} required name="" id="" cols="70" rows="10" />
-        {/* <input required placeholder=" description" onChange={(e)=> setDescription(e.target.value)} className=" p-3 w-[40vw]" ></input> */}
-       <button className=" w-[10vw] bg-blue-500 p-3 rounded-lg" type="submit">Submit</button>
+    <div>
+      <Navbar />
+    <form
+      onSubmit={handleSubmit}
+      className=" max-w-lg mx-auto mt-8 p-8 border rounded-lg shadow-lg"
+    >
+      <div className="mb-4">
+        <label htmlFor="file" className="block text-sm font-medium text-gray-700">
+          Choose File (PNG, JPEG, SVG)
+        </label>
+        <input
+        required
+          type="file"
+          id="file"
+          accept=".png, .jpg, .jpeg, .svg"
+          onChange={handleFileChange}
+          className="mt-1 p-3 bg-white border w-full rounded-md "
+        />
+        {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
+      </div>
+      <div className="mb-4">
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          Title
+        </label>
+        <input
+        required
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="mt-1 p-3 border outline-gray-600 rounded-md w-full"
+          placeholder="Enter title"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="content" className="block text-sm font-medium text-gray-700">
+          Blog Content
+        </label>
+        <textarea
+        required
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="mt-1 p-3 border outline-gray-600 rounded-md w-full"
+          placeholder="Enter blog content"
+          rows={10}
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        Submit
+      </button>
     </form>
-    <div>
-    <div>
     </div>
-    </div>
-    </div>
-    </>
-
-  )
-}
+  );
+};
 
 export default Page
