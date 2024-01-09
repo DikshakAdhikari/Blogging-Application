@@ -10,7 +10,7 @@ blogRouter.get('/blogs', verifyJwt,async(req,res)=> {
         const limit= req.query.limit
         const page= req.query.page 
         const searchText= req.query.search || ""        
-        console.log(searchText);
+        
         if(!req.query.sort){
             req.query.sort = 'title'
         }
@@ -43,10 +43,11 @@ blogRouter.get('/blogs', verifyJwt,async(req,res)=> {
          let content:any=[]
          if(searchText != ""){
             skipDocuments=0;
-             content= await blog.find({title:{$regex:searchText , $options:"i"}}).skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy)
+             content= await blog.find({title:{$regex:searchText , $options:"i"}}).skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy).populate('createdBy')
+             
 
          }else{
-            content= await blog.find({title:{$regex:searchText , $options:"i"}}).skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy)
+            content= await blog.find({title:{$regex:searchText , $options:"i"}}).skip(skipDocuments).limit(limitNumber).collation({ locale: 'en', strength: 2 }).sort(sortBy).populate('createdBy')
          }
          //console.log(content); 
          const docsCount= await blog.countDocuments({
@@ -93,7 +94,7 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
         })
         await data.save()
         
-    res.send('Blog successfully uploaded!')
+    res.json('Blog successfully uploaded!')
         
     }catch(err){
         res.json(err)
@@ -105,6 +106,7 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
 blogRouter.get('/all' , async(req, res)=> {
     try{
         const data= await blog.find().populate('createdBy')
+      
         res.json(data)
     }catch(err){
         res.status(403).json(err)

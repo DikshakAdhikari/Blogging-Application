@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import Image from 'next/image'
 import Navbar from "../Navbar"
 import  Swal from 'sweetalert2'
-import { DeleteLogo } from "@/app/Logo";
+import { DeleteLogo, EditLogo } from "@/app/Logo";
 
 
 export default function Page() {
@@ -99,7 +99,7 @@ export default function Page() {
           {/* <img src={`http://localhost:3001/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
           <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
           <div className=" flex justify-between items-center p-2">
-          <button className=" w-[5vw]  hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
+            <div className=" cursor-pointer"><EditLogo /></div>   
           <div onClick={()=>handleDelete(val._id)} className=" cursor-pointer"><DeleteLogo /></div>
           </div>
           </div>

@@ -23,13 +23,16 @@ userRouter.post('/' , async (req, res)=> {
 })
 
 userRouter.post('/signin', async (req, res)=> {
-    try{
+    try{   
         const {email, password} = req.body
         const isValidUser = await user.findOne({email})
         if(!isValidUser){
             return res.status(403).json('Such user does not exists!')
         }
-        const token = await user.matchPasswordAndGiveToken(isValidUser._id, email ,isValidUser.role, password)     
+        const token = await user.matchPasswordAndGiveToken(isValidUser._id, email ,isValidUser.role, password)
+        if(!token){
+            throw new Error('Invalid user')
+        }
         res.cookie('token', token, { secure: true, httpOnly: false, path: '/' });
          res.json(isValidUser)
     }catch(err){
@@ -49,18 +52,6 @@ userRouter.get('/:id', verifyJwt, async(req,res)=> {
         res.status(404).json(err)
     }
 })
-
-// userRouter.get('/k', verifyJwt, async(req,res)=> {
-//     const id= req.headers['userId']
-//     const rolee= req.headers['role']
-//     const token = req.cookies['token']
-//         console.log(token);
-//     const obj={
-//         id, rolee, token
-//     }
-//     res.send(obj)
-// } )
-
 
 
 export default userRouter

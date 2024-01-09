@@ -79,10 +79,10 @@ const Page = () => {
         throw new Error('Network problem while creating blog!');
       }
       const data= await res.json()
-      if(data){
+      console.log(data);
+      
         Swal.fire("Blog saved successfully!");
-      }
-
+      
     }catch(err){
       console.log(err);
       
@@ -97,7 +97,7 @@ const Page = () => {
     >
       <div className="mb-4">
         <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-          Choose File (PNG, JPEG, SVG)
+          Choose File (PNG, JPEG, SVG, WEBP.)
         </label>
         <input
         required
