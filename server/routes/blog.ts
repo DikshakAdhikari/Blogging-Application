@@ -143,7 +143,13 @@ blogRouter.delete('/remove/:blogId', verifyJwt, async (req,res)=> {
     }
 })
 
-
+blogRouter.patch('/update/:blogId', verifyJwt, async (req,res)=> {
+    try{
+        const updateBlog = await blog.findByIdAndUpdate(req.params.blogId , )
+    }catch(err){
+        res.status(403).json
+    }
+})
 
 
 export default blogRouter

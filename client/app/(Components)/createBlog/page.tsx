@@ -71,7 +71,6 @@ const Page = () => {
       const res= await fetch('http://localhost:3002/blog/', {
         method:"POST",
         credentials: "include",
-
         body:formData
       })
 
