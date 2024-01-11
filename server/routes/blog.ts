@@ -101,6 +101,20 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     }
 })
 
+blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,res)=> {
+    try{
+        const {title , description}= req.body
+        const userId= req.headers['userId']
+        const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${req.file?.filename}`,
+        title: title,
+        description: description,
+        createdBy: userId,} )
+        res.json(updateBlog)
+    }catch(err){
+        res.status(403).json
+    }
+})
+
 
 
 blogRouter.get('/all' , async(req, res)=> {
@@ -143,13 +157,6 @@ blogRouter.delete('/remove/:blogId', verifyJwt, async (req,res)=> {
     }
 })
 
-blogRouter.patch('/update/:blogId', verifyJwt, async (req,res)=> {
-    try{
-        const updateBlog = await blog.findByIdAndUpdate(req.params.blogId , )
-    }catch(err){
-        res.status(403).json
-    }
-})
 
 
 export default blogRouter
