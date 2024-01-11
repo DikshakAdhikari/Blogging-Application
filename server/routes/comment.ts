@@ -18,7 +18,6 @@ commentRouter.post('/:blogId', verifyJwt, async(req,res)=> {
     
 })
 
-
 commentRouter.get('/:blogId', async(req,res)=> {
     try{
         const userComments = await comment.find({blogId: req.params.blogId}).populate('userId')

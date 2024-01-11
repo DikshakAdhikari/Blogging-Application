@@ -4,13 +4,12 @@ import Image from 'next/image'
 import Navbar from "../Navbar"
 import  Swal from 'sweetalert2'
 import { DeleteLogo, EditLogo } from "@/app/Logo";
-
+import { useRouter } from "next/navigation"
 
 export default function Page() {
   const [image, setImage]= useState<any>([])
   const [deleteState, setDeleteState]=useState(false)
-
-  //console.log(userId);
+  const router= useRouter();
   
   useEffect(()=> {
     const fun = async()=> {
@@ -25,9 +24,8 @@ export default function Page() {
       if(!res.ok){
         throw new Error('Network Error!')
       }
-      // console.log(Cookies.get('token'));
+
       const data= await res.json()
-      
       //console.log(data[0].createdBy.fullName);
       setImage(data)
       setDeleteState(false)
@@ -99,7 +97,7 @@ export default function Page() {
           {/* <img src={`http://localhost:3001/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
           <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
           <div className=" flex justify-between items-center p-2">
-            <div className=" cursor-pointer"><EditLogo /></div>   
+            <div className=" cursor-pointer" onClick={()=> router.push(`/update-blog/${val._id}`)} ><EditLogo /></div>   
           <div onClick={()=>handleDelete(val._id)} className=" cursor-pointer"><DeleteLogo /></div>
           </div>
           </div>
