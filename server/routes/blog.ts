@@ -111,7 +111,7 @@ blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,re
         const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${req.file?.filename}`,
         title: title,
         description: description,
-        createdBy: userId,} )
+        createdBy: userId,} ).sort({updatedAt:'desc'})
         res.json(updateBlog)
     }catch(err){
         res.status(403).json
