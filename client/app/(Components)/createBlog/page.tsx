@@ -67,6 +67,8 @@ const Page = () => {
     formData.append('title', title)
     formData.append('description', content)
 
+    console.log(formData);
+    
     try{
       const res= await fetch('http://localhost:3002/blog/', {
         method:"POST",

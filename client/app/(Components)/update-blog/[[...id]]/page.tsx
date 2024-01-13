@@ -62,23 +62,23 @@ interface pageProps{
           setImage(data.imageUrl)
           setBlog(data)
         
-          if(data){
-            const res1= await fetch(`http://localhost:3002/comment/${params.id}`,{
-            method:"GET",
-            credentials:'include',
-            headers:{
-              Accept: 'application/json',
-              'Content-Type':'application/json'
-            },
-          })
-          if(!res1.ok){
-            throw new Error('Network connection error!')
-          }
-          const data1= await res1.json()
-          console.log(data1);
+          // if(data){
+          //   const res1= await fetch(`http://localhost:3002/comment/${params.id}`,{
+          //   method:"GET",
+          //   credentials:'include',
+          //   headers:{
+          //     Accept: 'application/json',
+          //     'Content-Type':'application/json'
+          //   },
+          // })
+          // if(!res1.ok){
+          //   throw new Error('Network connection error!')
+          // }
+          // const data1= await res1.json()
+          // console.log(data1);
           
            
-          }
+          // }
         }catch(err){
           console.log(err);
           //error handled
@@ -86,6 +86,9 @@ interface pageProps{
       }
       fun()
     },[toggle])
+
+    
+    
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files !== null && e.target.files.length > 0) {
         const selectedFile = e.target.files[0];
@@ -106,17 +109,19 @@ interface pageProps{
     };
   
     const handleSubmit = async (e:FormEvent)=> {
+            
       e.preventDefault()
       const formData= new FormData()
       if(file){
+        //console.log(title,description,file);
         formData.append('file', file)
       }
       formData.append('title', title)
       formData.append('description', description)
-  
       try{
-        const res= await fetch('http://localhost:3002/blog/', {
-          method:"POST",
+        
+        const res= await fetch(`http://localhost:3002/blog/update/${blog._id}`, {
+          method:"PUT",
           credentials: "include",
           body:formData
         })
@@ -125,8 +130,9 @@ interface pageProps{
           throw new Error('Network problem while creating blog!');
         }
         const data= await res.json()
-        console.log(data);     
-          Swal.fire("Blog saved successfully!");
+        
+         console.log(data);     
+          Swal.fire("Blog updated successfully!");
         
       }catch(err){
         console.log(err);
@@ -141,9 +147,15 @@ interface pageProps{
     return (
       <div>
       <Navbar />
+      <Image className=" object-fill w-full h-52"
+      src={`http://localhost:3002/${image}`}
+      width={500}
+      height={100}
+      alt="Picture of the author"
+    />
       <form
       onSubmit={handleSubmit}
-      className=" max-w-lg mx-auto mt-8 p-8 border rounded-lg shadow-lg"
+      className=" max-w-lg mx-auto mt-8 p-8  rounded-lg shadow-lg"
     >
       <div className="mb-4">
         <label htmlFor="file" className="block text-sm font-medium text-gray-700">

@@ -5,6 +5,8 @@ import blog from '../models/blog'
 import path from 'path'
 const blogRouter= express.Router()
 
+
+
 blogRouter.get('/blogs', verifyJwt,async(req,res)=> {
     try{
         const limit= req.query.limit
@@ -101,6 +103,7 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     }
 })
 
+
 blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,res)=> {
     try{
         const {title , description}= req.body
@@ -114,7 +117,6 @@ blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,re
         res.status(403).json
     }
 })
-
 
 
 blogRouter.get('/all' , async(req, res)=> {
