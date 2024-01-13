@@ -125,8 +125,7 @@ interface pageProps{
           throw new Error('Network problem while creating blog!');
         }
         const data= await res.json()
-        console.log(data);
-        
+        console.log(data);     
           Swal.fire("Blog saved successfully!");
         
       }catch(err){
@@ -151,7 +150,7 @@ interface pageProps{
           Choose File (PNG, JPEG, SVG, WEBP.)
         </label>
         <input
-        required
+         required={false}
           type="file"
           id="file"
           accept=".png, .jpg, .jpeg, .svg"
