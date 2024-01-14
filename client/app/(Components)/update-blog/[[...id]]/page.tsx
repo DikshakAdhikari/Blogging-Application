@@ -22,16 +22,15 @@ interface pageProps{
 
   const [file, setFile] = useState<File | null>(null);
     
-    const handleClick= async()=> {
+    const handleDelete= async(commentId)=> {
       try{
         
-        const res= await fetch(`http://localhost:3002/comment/${params.id[0]}`,{
-          method:"POST",
+        const res= await fetch(`http://localhost:3002/comment/${commentId}`,{
+          method:"DELETE",
           credentials:'include',
           headers:{
             'Content-Type':'application/json'
           },
-          body:JSON.stringify({comments})
         });
         if(!res.ok){
           throw new Error('Network error!');
@@ -75,8 +74,8 @@ interface pageProps{
             throw new Error('Network connection error!')
           }
           const data1= await res1.json()
-          console.log(data1);
-          
+          //console.log(data1);
+          setToggle(false)
           setComment(data1)
           }
         }catch(err){
@@ -94,8 +93,7 @@ interface pageProps{
         const selectedFile = e.target.files[0];
         const allowedExtensions = ["png", "jpeg", "jpg", "svg","webp"];
         const fileExtension = selectedFile.name.split('.').pop()?.toLowerCase();
-    
-        
+      
         if (fileExtension && allowedExtensions.includes(fileExtension)) {
           setFile(selectedFile);
           setError('')
@@ -129,13 +127,11 @@ interface pageProps{
         if(!res.ok){
           throw new Error('Network problem while creating blog!');
         }
-        const data= await res.json()
-        
+          const data= await res.json()        
          //console.log(data);     
           Swal.fire("Blog updated successfully!");
           router.push('/myBlogs')
-          
-        
+ 
       }catch(err){
         console.log(err);
         
@@ -218,7 +214,7 @@ interface pageProps{
           <div className='flex flex-col  justify-center p-2'>
             <div className=" flex items-center gap-3">
             <div className=' font-medium text-[1.4rem] text-blue-900'>{val?.userId?.fullName}</div>
-            <DeleteLogo />
+              <div className=" cursor-pointer" onClick={()=> handleDelete(val._id)} ><DeleteLogo /></div>
             </div>
             <div className=' text-[1.2rem] text-gray-950 '>{val.comments}</div>
             </div>
