@@ -108,29 +108,31 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
 blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,res)=> {
     try{
         const {title , description}= req.body
-        console.log(req.file);
+        const UserId= req.headers['userId']
         let imageDestination;
-        if(!req.file){
-   
+        if(!req.file){  
             //@ts-ignore
              const userImage= await blog.findOne({_id:req.params.blogId})
              //@ts-ignore
-             
              imageDestination=userImage?.imageUrl
+
+             const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl:`${imageDestination}`,
+             title: title,
+             description: description,
+             createdBy: UserId,} )
+        
+            res.json(updateBlog)
+             
         }else{
             imageDestination= req.file?.filename
+            const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
+            title: title,
+            description: description,
+            createdBy: UserId,} );
+        
+            res.json(updateBlog)
         }
-        console.log('imagedes', imageDestination);
-        
-        
-        const userId= req.headers['userId']
-        const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
-        title: title,
-        description: description,
-        createdBy: userId,} )
-        console.log(updateBlog);
-        
-        res.json(updateBlog)
+     
     }catch(err){
         res.status(403).json
     }
