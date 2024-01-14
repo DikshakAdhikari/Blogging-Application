@@ -3,6 +3,7 @@ import { verifyJwt } from '../middlewares/veriftJwt'
 import multer from 'multer'
 import blog from '../models/blog'
 import path from 'path'
+import { log } from 'console'
 const blogRouter= express.Router()
 
 
@@ -107,11 +108,28 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
 blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,res)=> {
     try{
         const {title , description}= req.body
+        console.log(req.file);
+        let imageDestination;
+        if(!req.file){
+   
+            //@ts-ignore
+             const userImage= await blog.findOne({_id:req.params.blogId})
+             //@ts-ignore
+             
+             imageDestination=userImage?.imageUrl
+        }else{
+            imageDestination= req.file?.filename
+        }
+        console.log('imagedes', imageDestination);
+        
+        
         const userId= req.headers['userId']
-        const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${req.file?.filename}`,
+        const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
         title: title,
         description: description,
-        createdBy: userId,} ).sort({updatedAt:'desc'})
+        createdBy: userId,} )
+        console.log(updateBlog);
+        
         res.json(updateBlog)
     }catch(err){
         res.status(403).json
