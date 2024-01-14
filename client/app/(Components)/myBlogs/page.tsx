@@ -16,7 +16,7 @@ export default function Page() {
       try{
         const res= await fetch(`http://localhost:3002/blog/userBlog`,{
         method:"GET",
-        credentials:"include", //This is very important in the case when we want to send cookies with the request
+        credentials:"include", 
         headers:{
           'Content-Type': 'application/json'
         }
@@ -26,8 +26,7 @@ export default function Page() {
       }
 
       const data= await res.json()
-      console.log(data);
-      
+      //console.log(data);
       //console.log(data[0].createdBy.fullName);
       setImage(data)
       setDeleteState(false)

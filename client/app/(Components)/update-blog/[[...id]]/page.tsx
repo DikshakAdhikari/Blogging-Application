@@ -1,11 +1,10 @@
 "use client"
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react"
 import Navbar from '../../Navbar'
-import { useRouter } from 'next/router'
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { ProfileLogo } from '@/app/Logo'
 import  Swal from 'sweetalert2'
+import { DeleteLogo, ProfileLogo } from "@/app/Logo"
 
 interface pageProps{
     params: {id:string}
@@ -13,12 +12,13 @@ interface pageProps{
   
   const page:FC<pageProps> = ({params}) => {
     const [blog, setBlog] = useState()
-    const [comments, setComment]= useState('')
+    const [comments, setComment]= useState([])
     const [toggle, setToggle]= useState(false)
     const [title, setTitle]= useState('')
     const [description, setDescription]= useState('')
     const [image, setImage]= useState('')
     const [error, setError]= useState('')
+    const router= useRouter()
 
   const [file, setFile] = useState<File | null>(null);
     
@@ -56,29 +56,29 @@ interface pageProps{
             throw new Error('Network Error!')
           }
           const data= await res.json()
-          console.log(data);
+          //console.log(data);
           setTitle(data.title)
           setDescription(data.description)
           setImage(data.imageUrl)
           setBlog(data)
         
-          // if(data){
-          //   const res1= await fetch(`http://localhost:3002/comment/${params.id}`,{
-          //   method:"GET",
-          //   credentials:'include',
-          //   headers:{
-          //     Accept: 'application/json',
-          //     'Content-Type':'application/json'
-          //   },
-          // })
-          // if(!res1.ok){
-          //   throw new Error('Network connection error!')
-          // }
-          // const data1= await res1.json()
-          // console.log(data1);
+          if(data){
+            const res1= await fetch(`http://localhost:3002/comment/${params.id}`,{
+            method:"GET",
+            credentials:'include',
+            headers:{
+              Accept: 'application/json',
+              'Content-Type':'application/json'
+            },
+          })
+          if(!res1.ok){
+            throw new Error('Network connection error!')
+          }
+          const data1= await res1.json()
+          console.log(data1);
           
-           
-          // }
+          setComment(data1)
+          }
         }catch(err){
           console.log(err);
           //error handled
@@ -133,6 +133,8 @@ interface pageProps{
         
          //console.log(data);     
           Swal.fire("Blog updated successfully!");
+          router.push('/myBlogs')
+          
         
       }catch(err){
         console.log(err);
@@ -206,6 +208,24 @@ interface pageProps{
         Submit
       </button>
     </form>
+
+    <div className=" p-4">
+      <div className=" text-[1.5rem] font-medium text-gray-700">Comments</div>
+      <div className=' flex flex-col-reverse'>
+        {comments.map((val,index)=>(
+            <div key={index} className=' flex gap-3 items-center'>
+            <ProfileLogo />
+          <div className='flex flex-col  justify-center p-2'>
+            <div className=" flex items-center gap-3">
+            <div className=' font-medium text-[1.4rem] text-blue-900'>{val?.userId?.fullName}</div>
+            <DeleteLogo />
+            </div>
+            <div className=' text-[1.2rem] text-gray-950 '>{val.comments}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
  
     </div>
      
