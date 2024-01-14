@@ -3,7 +3,6 @@ import { verifyJwt } from '../middlewares/veriftJwt'
 import multer from 'multer'
 import blog from '../models/blog'
 import path from 'path'
-import { log } from 'console'
 const blogRouter= express.Router()
 
 
@@ -129,7 +128,7 @@ blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,re
             title: title,
             description: description,
             createdBy: UserId,} );
-        
+
             res.json(updateBlog)
         }
      
@@ -151,7 +150,7 @@ blogRouter.get('/all' , async(req, res)=> {
 
 blogRouter.get('/userBlog', verifyJwt, async(req,res)=> {
     try{
-        const userBlogs= await blog.find({createdBy:req.headers['userId']}) 
+        const userBlogs= await blog.find({createdBy:req.headers['userId']}).sort({updatedAt:"desc"})
         res.json(userBlogs)
         
     }catch(err){

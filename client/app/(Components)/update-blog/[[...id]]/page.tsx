@@ -131,7 +131,7 @@ interface pageProps{
         }
         const data= await res.json()
         
-         console.log(data);     
+         //console.log(data);     
           Swal.fire("Blog updated successfully!");
         
       }catch(err){

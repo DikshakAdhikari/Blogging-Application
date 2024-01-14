@@ -26,6 +26,8 @@ export default function Page() {
       }
 
       const data= await res.json()
+      console.log(data);
+      
       //console.log(data[0].createdBy.fullName);
       setImage(data)
       setDeleteState(false)
