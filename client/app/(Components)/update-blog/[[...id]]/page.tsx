@@ -24,7 +24,7 @@ interface pageProps{
     
     const handleDelete= async(commentId)=> {
       try{
-        
+        setToggle(true)
         const res= await fetch(`http://localhost:3002/comment/${commentId}`,{
           method:"DELETE",
           credentials:'include',
@@ -36,7 +36,7 @@ interface pageProps{
           throw new Error('Network error!');
         }
         const data= await res.json();
-        setToggle(true)
+        
       }catch(err){
         console.log(err);
         
@@ -60,6 +60,7 @@ interface pageProps{
           setDescription(data.description)
           setImage(data.imageUrl)
           setBlog(data)
+         
         
           if(data){
             const res1= await fetch(`http://localhost:3002/comment/${params.id}`,{
@@ -74,9 +75,8 @@ interface pageProps{
             throw new Error('Network connection error!')
           }
           const data1= await res1.json()
-          //console.log(data1);
-          setToggle(false)
           setComment(data1)
+          setToggle(false)
           }
         }catch(err){
           console.log(err);
@@ -85,7 +85,6 @@ interface pageProps{
       }
       fun()
     },[toggle])
-
     
     
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
