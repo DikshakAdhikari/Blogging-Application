@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Navbar from '../Navbar'
 import { useRouter } from "next/navigation"
 import Pagination from '../Pagination'
+import '../styles.css'
 
 const Page = () => {
     const [cardData, setcardData]= useState<any>([])
@@ -69,12 +70,15 @@ const Page = () => {
           <button onClick={()=> router.push(`/viewBlog/${val._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
           <div className=" flex items-center justify-between gap-3">
             <div className=" flex gap-2 items-center">
-          <Image  className=' rounded-full object-fill mb-5'
+ 
+          <Image
+          class="img"
             src={`http://localhost:3002/${val.createdBy.imageUrl}`}
-            width={40}
-            height={30}
+            width={80}
+            height={80}
             alt="Picture of the author"
           />
+        
           <div className=" italic flex items-center text-gray-500 font-bold">By- {val.createdBy.fullName}</div>
           </div>
           <div className=" italic text-gray-500 font-bold">{val.createdAt.split('T')[0]}</div>

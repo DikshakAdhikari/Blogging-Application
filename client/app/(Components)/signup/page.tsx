@@ -1,16 +1,22 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import Cookies from 'js-cookie'
+import gallery from '../../(assets)/gallery.png'
 import  Swal from 'sweetalert2'
+import Image from 'next/image'
 import Navbar from '../Navbar'
+import '../styles.css'
 const Page = () => {
   const [username, setUsername]= useState('')
   const [email, setEmail]= useState('')
   const [password, setPassword]= useState('')
   const [file, setFile] = useState<File | null>(null);
   const [error, setError]= useState('')
+  const [image , setImage]= useState(null)
   const router= useRouter()
+
+  const inputRef= useRef(null)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null && e.target.files.length > 0) {
@@ -60,6 +66,12 @@ const Page = () => {
       }
     }
   
+
+    const handleImageClick = ()=> {
+      //@ts-ignore
+      inputRef.current.click()
+    }
+
 return (
   <div>
   <Navbar />
@@ -69,20 +81,26 @@ return (
     <h2 className="text-2xl font-bold mb-6">Registration</h2>
     <form onSubmit={handleSignup}>
     <div className="mb-4">
-
-        <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-          Choose File (PNG, JPEG, SVG, WEBP.)
-        </label>
+        <div onClick={handleImageClick} className=' flex flex-col gap-5 items-center'>
+          {file ? 
+          <Image src={URL.createObjectURL(file)} class="signupImg" height={200} width={200} alt="gf" /> 
+          : <Image src={gallery} class="signupImg" height={200} width={200} alt="gf" /> 
+         }
+        
+        
         <input
         required
+        ref={inputRef}
           type="file"
           id="file"
           accept=".png, .jpg, .jpeg, .svg"
           onChange={handleFileChange}
-          className="mt-1 p-3 bg-white border w-full rounded-md "
+          className="mt-1 p-3 hidden bg-white border w-full rounded-md "
         />
+        
+        </div>
+        {/* <button className=' m-4 flex justify-center text-white font-bold p-3 px-8 bg-green-600 rounded-lg'>Upload</button> */}
         {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
-     
         <label htmlFor="email" className="block text-gray-600 text-sm font-medium mb-2">
           Username
         </label>
