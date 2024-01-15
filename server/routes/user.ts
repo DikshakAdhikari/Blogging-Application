@@ -1,11 +1,24 @@
 import express from 'express'
 import user from '../models/user'
-import { generateToken } from '../services/auth'
 import { verifyJwt } from '../middlewares/veriftJwt'
+import multer from 'multer'
+import path from 'path'
 
 const userRouter= express.Router()
 
-userRouter.post('/' , async (req, res)=> {
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.resolve('./public/uploads/'))
+    },
+    filename: function (req, file, cb) {
+        const fileName= `${Date.now()}-${file.originalname}`
+      cb(null, fileName) // .jpeg
+    }
+  })
+
+  const upload = multer({ storage: storage })
+
+userRouter.post('/' , upload.single('file'), async (req, res)=> {
     try{
         const {fullName, email, password, role} = req.body
         const isUserExists = await user.findOne({fullName, email})
@@ -13,6 +26,7 @@ userRouter.post('/' , async (req, res)=> {
             return res.json('User already exists!')
         }
         const data= await user.create({
+            imageUrl: `/uploads/${req.file?.filename}`,
             fullName , email, password, role
         })
         data.save()

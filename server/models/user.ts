@@ -3,6 +3,7 @@ import { createHmac , randomBytes } from "crypto";
 import { generateToken } from "../services/auth";
 
 interface IUser extends Document{ //We are extending to  Document type bcz n Mongoose, the isModified function is used to check if a particular field in a document has been modified. This function is available on individual documents (instances of a Mongoose model) and is used to determine whether a field has been changed since the document was loaded or saved
+    imageUrl:string,
     fullName: string;
     email:string;
     password:string;
@@ -15,6 +16,10 @@ interface UserModel extends Model<IUser> {
 }
 
 const userSchema= new mongoose.Schema<IUser,UserModel>({
+    imageUrl:{
+        type:String,
+        required:false
+    },
     fullName:{
         type:String,
         required:true,
