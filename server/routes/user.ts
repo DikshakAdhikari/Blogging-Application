@@ -25,12 +25,22 @@ userRouter.post('/' , upload.single('file'), async (req, res)=> {
         if(isUserExists){ 
             return res.json('User already exists!')
         }
+        
+        if(!req.file){
+            const data= await user.create({
+                fullName , email, password, role
+            })
+            data.save()
+            res.send('User created successfully!')
+        }
+        else{
         const data= await user.create({
             imageUrl: `/uploads/${req.file?.filename}`,
             fullName , email, password, role
         })
         data.save()
         res.send('User created successfully!')
+    }
     }catch(err){
         res.status(403).json(err)
     }

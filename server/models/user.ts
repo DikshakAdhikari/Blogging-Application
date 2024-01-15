@@ -18,7 +18,8 @@ interface UserModel extends Model<IUser> {
 const userSchema= new mongoose.Schema<IUser,UserModel>({
     imageUrl:{
         type:String,
-        required:false
+        required:false,
+    
     },
     fullName:{
         type:String,
@@ -49,6 +50,8 @@ const userSchema= new mongoose.Schema<IUser,UserModel>({
     
 },{timestamps:true})
 
+const DEFAULT_IMAGE = '/profile.jpg';
+
 userSchema.pre<IUser>('save', function (next){
     const user= this;
     if(!user.isModified("password")) {return}
@@ -56,6 +59,10 @@ userSchema.pre<IUser>('save', function (next){
     const hashedPassword = createHmac('sha256', secret).update(user.password).digest('hex');
     this.salt = secret
     this.password = hashedPassword
+    if (!this.imageUrl || this.imageUrl.trim() === '') {
+        // Set default image
+        this.imageUrl = DEFAULT_IMAGE;
+      }
     next()
 })
 

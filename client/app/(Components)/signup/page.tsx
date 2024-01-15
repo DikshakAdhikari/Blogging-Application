@@ -89,7 +89,7 @@ return (
         
         
         <input
-        required
+        
         ref={inputRef}
           type="file"
           id="file"
