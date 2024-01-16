@@ -89,11 +89,11 @@ const Page = () => {
     }  
   }
   return (
-    <div>
+    <div className="flex flex-col  h-[100vh] bg-gradient-to-br from-yellow-500 to-blue-500">
       <Navbar />
     <form
       onSubmit={handleSubmit}
-      className=" max-w-lg mx-auto mt-8 p-8 border rounded-lg shadow-lg"
+      className=" max-w-lg mx-auto mt-8 bg-white p-8 border rounded-lg shadow-lg"
     >
       <div className="mb-4">
         <label htmlFor="file" className="block text-sm font-medium text-gray-700">

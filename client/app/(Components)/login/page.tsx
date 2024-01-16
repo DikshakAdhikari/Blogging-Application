@@ -43,10 +43,10 @@ const Login = () => {
       }
     
   return (
-    <div>
+    <div className="flex flex-col  h-[100vh] bg-gradient-to-br from-yellow-500 to-blue-500">
       <Navbar />
     
-      <div className="flex justify-center items-center h-[86vh] bg-gray-100">
+      <div className="flex justify-center items-center h-[86vh] ">
       <div className="bg-white p-8 py-10 shadow-md rounded-md w-[26%]">
         <h2 className="text-2xl font-bold mb-6">Login</h2>
         <form onSubmit={handleLogin}>
