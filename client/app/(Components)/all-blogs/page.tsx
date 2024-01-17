@@ -46,7 +46,6 @@ const Page = () => {
       }
     },[search])
   
-    // console.log(cardData?.content[0]?.createdBy);
     
     return (
       <div className=" flex flex-col">
