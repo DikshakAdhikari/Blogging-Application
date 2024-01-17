@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
 
 userRouter.post('/' , upload.single('file'), async (req, res)=> {
     try{
+        
         const {fullName, email, password, role} = req.body
         const isUserExists = await user.findOne({fullName, email})
         if(isUserExists){ 
