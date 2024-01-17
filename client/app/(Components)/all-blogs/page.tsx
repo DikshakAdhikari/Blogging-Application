@@ -29,7 +29,7 @@ const Page = () => {
         }
        
         const data= await res.json()
-        //console.log(data);
+       
      
         setcardData(data)
         
