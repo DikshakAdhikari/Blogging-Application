@@ -138,15 +138,15 @@ blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,re
 })
 
 
-blogRouter.get('/all' , async(req, res)=> {
-    try{
-        const data= await blog.find().populate('createdBy')
+// blogRouter.get('/all' , async(req, res)=> {
+//     try{
+//         const data= await blog.find().populate('createdBy')
       
-        res.json(data)
-    }catch(err){
-        res.status(403).json(err)
-    }
-})
+//         res.json(data)
+//     }catch(err){
+//         res.status(403).json(err)
+//     }
+// })
 
 blogRouter.get('/userBlog', verifyJwt, async(req,res)=> {
     try{
