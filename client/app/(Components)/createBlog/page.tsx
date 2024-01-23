@@ -11,6 +11,7 @@ const Page = () => {
   const [image, setImage]= useState<any>([])
   const [error, setError]= useState('')
 
+
  
   useEffect(()=> {
   
@@ -26,9 +27,9 @@ const Page = () => {
       if(!res.ok){
         throw new Error('Network Error!')
       }
-      //console.log(Cookies.get('token'));
+      
       const data= await res.json()
-      //console.log(data);
+     
        setImage(data)
       
       }catch(err){
@@ -88,6 +89,8 @@ const Page = () => {
       
     }  
   }
+
+  
   return (
     <div className="flex flex-col  h-[100vh] bg-gradient-to-br from-yellow-500 to-blue-500">
       <Navbar />
