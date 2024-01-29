@@ -38,3 +38,12 @@ This application provides users with the following features
 
 ![Screenshot from 2024-01-29 12-40-53](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/5bba3746-2af9-4f24-8ffc-7774a02f261f)
 
+## Step-7
+
+![Screenshot from 2024-01-29 12-47-11](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/7947fd92-d6ce-4400-86b4-9139b5b2dcca)
+
+## Step-8
+
+![Screenshot from 2024-01-29 12-47-51](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/5f6ca73f-206a-4edf-aa72-5bbe3fe4b84d)
+
+
