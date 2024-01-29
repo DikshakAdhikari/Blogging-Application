@@ -2,17 +2,17 @@
 
 **Introduction**  
 
-This advanced Blogging Application is built using TypeScript, Next.js, Tailwind CSS, Node.js, MongoDB, and Redis. The purpose behind developing this application is to condense lengthy URLs into their shortest possible form while also offering supplementary analytical functionalities.
+This advanced Blogging Application is built using TypeScript, Next.js, Tailwind CSS, Node.js, MongoDB, and Redis. The purpose behind developing this application is to build a robust Blogging Web app in which the registered user can create Blogs and post it to the app such the users of the application can make use of it and can also share their views about Blog using **Comment section**.
 
 **Features**  
 
 This application provides users with the following features  
 
+- Serving all CRUD operations, with add on comment facility.
+- Pagination, Search and Sort implementation on server side for robust support.
 - Implemented **Rate Limiter** to protect server from being overwhelmed by too many requests in a short amount of time by the clients.
-- Authentication using **JWT Tokens**  
-- Implemented **Authorization**, based on roles assigned to the user. 
+- Authentication using **JWT Tokens**
 - A **Global Shortner** that can be used to shorten url of any length.
-- Providing feature to track the **analytics** based on counts of visit on particular Url.
 
 ## Step-1
 
