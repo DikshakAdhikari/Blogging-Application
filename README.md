@@ -1,8 +1,8 @@
-# URL Shortner
+# Blogging Applicaton
 
 **Introduction**  
 
-This advanced URL shortener is built using TypeScript, Next.js, Tailwind CSS, Node.js, MongoDB, and Redis. The purpose behind developing this application is to condense lengthy URLs into their shortest possible form while also offering supplementary analytical functionalities.
+This advanced Blogging Application is built using TypeScript, Next.js, Tailwind CSS, Node.js, MongoDB, and Redis. The purpose behind developing this application is to condense lengthy URLs into their shortest possible form while also offering supplementary analytical functionalities.
 
 **Features**  
 
