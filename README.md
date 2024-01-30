@@ -12,7 +12,7 @@ This application provides users with the following features
 - Pagination, Search and Sort implementation on server side for robust support.
 - Implemented **Rate Limiter** to protect server from being overwhelmed by too many requests in a short amount of time by the clients.
 - Authentication using **JWT Tokens**
-- A **Global Shortner** that can be used to shorten url of any length.
+- A **Global Blogging Application** that can be used to create blog with upload photos facility both while creating blog and registering to the Blogging Portal.
 
 ## Step-1
 
