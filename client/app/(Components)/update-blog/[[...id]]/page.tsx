@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import  Swal from 'sweetalert2'
 import { DeleteLogo, ProfileLogo } from "@/app/Logo"
+import { base_url } from "../../secret"
 
 interface pageProps{
     params: {id:string}
@@ -25,7 +26,7 @@ interface pageProps{
     const handleDelete= async(commentId)=> {
       try{
         setToggle(true)
-        const res= await fetch(`http://localhost:3002/comment/${commentId}`,{
+        const res= await fetch(`${base_url}/comment/${commentId}`,{
           method:"DELETE",
           credentials:'include',
           headers:{
@@ -45,7 +46,7 @@ interface pageProps{
     useEffect(()=>{
       const fun =async()=> {
         try{
-          const res= await fetch(`http://localhost:3002/blog/user/${params.id}`,{
+          const res= await fetch(`${base_url}/blog/user/${params.id}`,{
             headers:{
               'Content-Type': 'application/json'
             }
@@ -63,7 +64,7 @@ interface pageProps{
          
         
           if(data){
-            const res1= await fetch(`http://localhost:3002/comment/${params.id}`,{
+            const res1= await fetch(`${base_url}/comment/${params.id}`,{
             method:"GET",
             credentials:'include',
             headers:{
@@ -117,7 +118,7 @@ interface pageProps{
       formData.append('description', description)
       try{
         
-        const res= await fetch(`http://localhost:3002/blog/update/${blog._id}`, {
+        const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
           method:"PUT",
           credentials: "include",
           body:formData
@@ -142,19 +143,19 @@ interface pageProps{
     }
 
     return (
-      <div>
+      <div className="  bg-gradient-to-br from-yellow-500 to-blue-500 h-[100vh]">
       <Navbar />
-      <Image className=" object-fill w-full h-52"
-      src={`http://localhost:3002/${image}`}
-      width={500}
-      height={100}
-      alt="Picture of the author"
+      <div className=" w-[100%] flex justify-center">
+      <img className=" object-fill rounded-lg w-[20%] h-[25vh]"
+      src={`${base_url}/${image}`}
+      alt="Picture of the author" 
     />
+    </div>
       <form
       onSubmit={handleSubmit}
-      className=" max-w-lg mx-auto mt-8 p-8  rounded-lg shadow-lg"
+      className=" max-w-lg mx-auto mt-8 p-8  bg-white rounded-lg shadow-lg"
     >
-      <div className="mb-4">
+      <div className="mb-4 bg-white">
         <label htmlFor="file" className="block text-sm font-medium text-gray-700">
           Choose File (PNG, JPEG, SVG, WEBP.)
         </label>
@@ -168,7 +169,7 @@ interface pageProps{
         />
         {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
       </div>
-      <div className="mb-4">
+      <div className="mb-4 bg-white">
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
           Title
         </label>
@@ -204,8 +205,8 @@ interface pageProps{
       </button>
     </form>
 
-    <div className=" p-4">
-      <div className=" text-[1.5rem] font-medium text-gray-700">Comments</div>
+    <div className=" ml-8 p-4">
+      <div className=" text-[2.5rem] font-bold text-black">Comments</div>
       <div className=' flex flex-col-reverse'>
         {comments.map((val,index)=>(
             <div key={index} className=' flex gap-3 items-center'>

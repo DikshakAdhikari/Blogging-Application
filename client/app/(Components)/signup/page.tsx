@@ -7,6 +7,7 @@ import  Swal from 'sweetalert2'
 import Image from 'next/image'
 import Navbar from '../Navbar'
 import '../styles.css'
+import { base_url } from '../secret'
 const Page = () => {
   const [username, setUsername]= useState('')
   const [email, setEmail]= useState('')
@@ -48,7 +49,7 @@ const Page = () => {
       formData.append('password', password)
 
       try{
-        const res= await fetch('http://localhost:3002/user/',{
+        const res= await fetch(`${base_url}/user/`,{
           method:"POST",
           credentials:'include',
           body: formData

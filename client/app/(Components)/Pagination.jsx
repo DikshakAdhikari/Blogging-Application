@@ -23,7 +23,7 @@ const Pagination = ({totalDocuments, limit, page,setPage}) => {
         })
         
       })} className=' cursor-pointer' height={55} src={left} />
-      <div className=' font-bold text-gray-600 text-[1.5rem]'>{page}</div>
+      <div className=' font-bold text-white text-[1.6rem]'>{page}</div>
 
       <Image onClick={()=> {
         setPage((prev)=>{

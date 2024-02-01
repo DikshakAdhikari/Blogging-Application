@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import Navbar from "../Navbar"
 import  Swal from 'sweetalert2'
+import { base_url } from "../secret";
 
 const Page = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -17,7 +18,7 @@ const Page = () => {
   
     const fun = async()=> {
       try{
-        const res= await fetch('http://localhost:3002/blog/all',{
+        const res= await fetch(`${base_url}/blog/all`,{
         method:"GET",
         credentials:"include", //This is very important in the case when we want to send cookies with the request
         headers:{
@@ -70,7 +71,7 @@ const Page = () => {
 
     
     try{
-      const res= await fetch('http://localhost:3002/blog/', {
+      const res= await fetch(`${base_url}/blog/`, {
         method:"POST",
         credentials: "include",
         body:formData

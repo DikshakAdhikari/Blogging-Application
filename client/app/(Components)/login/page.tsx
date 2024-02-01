@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import Navbar from '../Navbar'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/app/store/infoSlice'
+import { base_url } from '../secret'
 
 const Login = () => {
     const [email, setEmail]= useState('')
@@ -15,7 +16,7 @@ const Login = () => {
     const handleLogin= async(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         try{
-          const res= await fetch('http://localhost:3002/user/signin',{
+          const res= await fetch(`${base_url}/user/signin`,{
             method:"POST",
             credentials:'include',
             headers:{

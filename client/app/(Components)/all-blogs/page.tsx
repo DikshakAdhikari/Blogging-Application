@@ -48,7 +48,7 @@ const Page = () => {
   
     
     return (
-      <div className=" flex flex-col">
+      <div className=" bg-gradient-to-br from-yellow-500 to-blue-500 h-[100vh] flex flex-col">
       <Navbar />
       {/* <div className="flex min-h-screen items-center justify-center bg-neutral-800">
   <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -87,11 +87,11 @@ const Page = () => {
       <div className="  rounded-lg hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
        <Image className=" rounded-lg rounded-b-none object-fill w-full h-52"
       src={`http://localhost:3002/${val.imageUrl}`}
-      width={500}
+      width={400}
       height={100}
       alt="Picture of the author"
     />
-      <div className="  p-5 flex flex-col gap-4">
+      <div className=" bg-white  p-5 flex flex-col gap-4">
           {/* <img src={`http://localhost:3002/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
           <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
           <button onClick={()=> router.push(`/viewBlog/${val._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
@@ -100,13 +100,13 @@ const Page = () => {
  
           <Image
           class="img"
-            src={`http://localhost:3002/${val.createdBy.imageUrl}`}
+            src={`http://localhost:3002/${val?.createdBy?.imageUrl}`}
             width={80}
             height={80}
             alt="Picture of the author"
           />
         
-          <div className=" italic flex items-center text-gray-500 font-bold">By- {val.createdBy.fullName}</div>
+          <div className=" italic flex items-center text-gray-500 font-bold">By- {val?.createdBy?.fullName}</div>
           </div>
           <div className=" italic text-gray-500 font-bold">{val.createdAt.split('T')[0]}</div>
           </div>

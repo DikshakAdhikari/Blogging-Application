@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { ProfileLogo } from '@/app/Logo'
+import { base_url } from '../../secret'
 interface pageProps{
   params: {id:string}
 }
@@ -20,7 +21,7 @@ const page:FC<pageProps> = ({params}) => {
   const handleClick= async()=> {
     try{
       
-      const res= await fetch(`http://localhost:3002/comment/${params.id[0]}`,{
+      const res= await fetch(`${base_url}/comment/${params.id[0]}`,{
         method:"POST",
         credentials:'include',
         headers:{
@@ -41,7 +42,7 @@ const page:FC<pageProps> = ({params}) => {
   useEffect(()=>{
     const fun =async()=> {
       try{
-        const res= await fetch(`http://localhost:3002/blog/user/${params.id[0]}`,{
+        const res= await fetch(`${base_url}/blog/user/${params.id[0]}`,{
           headers:{
             'Content-Type': 'application/json'
           }
@@ -54,7 +55,7 @@ const page:FC<pageProps> = ({params}) => {
         setBlog(data)
       
         if(data){
-          const res1= await fetch(`http://localhost:3002/comment/${params.id[0]}`,{
+          const res1= await fetch(`${base_url}/comment/${params.id[0]}`,{
           method:"GET",
           credentials:'include',
           headers:{
@@ -91,10 +92,8 @@ const page:FC<pageProps> = ({params}) => {
       <Navbar />
       <div className=' p-5'>
         <div className='text-[2.4rem] text-red-900 mb-6 font-bold pl-5'>{blog.title}</div>
-        <Image  className=' object-fill mb-5'
-            src={`http://localhost:3002/${blog.imageUrl}`}
-            width={400}
-            height={300}
+        <img  className=' object-fill mb-5 h-[28vh] w-[22vw] rounded-lg'
+            src={`${base_url}/${blog.imageUrl}`}
             alt="Picture of the author"
           />
          
