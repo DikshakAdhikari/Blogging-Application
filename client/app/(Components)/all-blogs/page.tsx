@@ -5,6 +5,7 @@ import Navbar from '../Navbar'
 import { useRouter } from "next/navigation"
 import Pagination from '../Pagination'
 import '../styles.css'
+import { base_url } from "../secret"
 
 const Page = () => {
     const [cardData, setcardData]= useState<any>([])
@@ -17,7 +18,7 @@ const Page = () => {
       const fun = async()=> {
    
         try{
-          const res= await fetch(`http://localhost:3002/blog/blogs?page=${page}&limit=5&sort=createdAt&search=${search}`,{
+          const res= await fetch(`${base_url}/blog/blogs?page=${page}&limit=5&sort=createdAt&search=${search}`,{
           method:"GET",
           credentials:"include", //This is very important in the case when we want to send cookies with the request
           headers:{
@@ -59,7 +60,7 @@ const Page = () => {
       <div className="h-96 w-72">
     
         <Image className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125 rounded-lg rounded-b-none "
-      src={`http://localhost:3002/${val.imageUrl}`}
+      src={`${base_url}/${val.imageUrl}`}
       width={50}
       height={100}
       alt="Picture of the author"
@@ -86,13 +87,13 @@ const Page = () => {
        {cardData?.content?.map((val:any)=> (
       <div className="  rounded-lg hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
        <Image className=" rounded-lg rounded-b-none object-fill w-full h-52"
-      src={`http://localhost:3002/${val.imageUrl}`}
+      src={`${base_url}/${val.imageUrl}`}
       width={400}
       height={100}
       alt="Picture of the author"
     />
       <div className=" bg-white  p-5 flex flex-col gap-4">
-          {/* <img src={`http://localhost:3002/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
+          {/* <img src={`${base_url}/${val.imageUrl}`} alt="dsffdgfdgdfsdfsdf" />  format -> http://localhost:3001/uploads/1703846233313.2023-11-20-165834.jpg */}
           <div className=" text-gray-700 font-semibold text-[1.4rem]">{val.title}</div>
           <button onClick={()=> router.push(`/viewBlog/${val._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
           <div className=" flex items-center justify-between gap-3">
@@ -100,7 +101,7 @@ const Page = () => {
  
           <Image
           class="img"
-            src={`http://localhost:3002/${val?.createdBy?.imageUrl}`}
+            src={`${base_url}/${val?.createdBy?.imageUrl}`}
             width={80}
             height={80}
             alt="Picture of the author"
