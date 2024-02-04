@@ -7,7 +7,7 @@ import ReduxProvider from './store/ReduxProvider';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Snif Blog App',
+  title: 'Dikshak | Blog',
   description: 'Blog App',
 }
 

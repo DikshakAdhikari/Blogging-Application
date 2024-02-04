@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import Navbar from "../Navbar"
 import  Swal from 'sweetalert2'
 import { base_url } from "../secret";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -11,7 +12,7 @@ const Page = () => {
   const [content, setContent] = useState("");
   const [image, setImage]= useState<any>([])
   const [error, setError]= useState('')
-
+  const router= useRouter()
 
  
   useEffect(()=> {
@@ -30,8 +31,8 @@ const Page = () => {
       }
       
       const data= await res.json()
-     
        setImage(data)
+
       
       }catch(err){
         console.log(err); 
@@ -84,6 +85,7 @@ const Page = () => {
       console.log(data);
       
         Swal.fire("Blog saved successfully!");
+        router.push('/all-blogs')
       
     }catch(err){
       console.log(err);
@@ -138,7 +140,8 @@ const Page = () => {
           onChange={(e) => setContent(e.target.value)}
           className="mt-1 p-3 border outline-gray-600 rounded-md w-full"
           placeholder="Enter blog content"
-          rows={10}
+          cols={70}
+          rows={15}
         ></textarea>
       </div>
       <button

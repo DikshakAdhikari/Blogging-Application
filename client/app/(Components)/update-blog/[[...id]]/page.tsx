@@ -143,17 +143,18 @@ interface pageProps{
     }
 
     return (
-      <div className="  bg-gradient-to-br from-yellow-500 to-blue-500 h-[100vh]">
+      <div className=" h-[100vh]">
       <Navbar />
-      <div className=" w-[100%] flex justify-center">
-      <img className=" object-fill rounded-lg w-[20%] h-[25vh]"
+      <div className=" flex justify-center px-9  m-5">
+      <div className=" w-[100%] flex ">
+      <img className=" object-fill rounded-xl w-[40vw] h-[65vh]"
       src={`${base_url}/${image}`}
       alt="Picture of the author" 
     />
     </div>
       <form
       onSubmit={handleSubmit}
-      className=" max-w-lg mx-auto mt-8 p-8  bg-white rounded-lg shadow-lg"
+      className=" w-[60vw] mx-auto  p-8  bg-white rounded-lg shadow-lg"
     >
       <div className="mb-4 bg-white">
         <label htmlFor="file" className="block text-sm font-medium text-gray-700">
@@ -204,7 +205,7 @@ interface pageProps{
         Submit
       </button>
     </form>
-
+    </div>
     <div className=" ml-8 p-4">
       <div className=" text-[2.5rem] font-bold text-black">Comments</div>
       <div className=' flex flex-col-reverse'>

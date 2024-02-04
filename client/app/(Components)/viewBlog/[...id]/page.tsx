@@ -1,8 +1,7 @@
 "use client"
 import React, { FC, useEffect, useState } from 'react'
 import Navbar from '../../Navbar'
-import { useRouter } from 'next/router'
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { ProfileLogo } from '@/app/Logo'
 import { base_url } from '../../secret'
@@ -16,7 +15,7 @@ const page:FC<pageProps> = ({params}) => {
   const [getUserComments, setUserComments]=useState([])
   const [toggle, setToggle]= useState(false)
   const [commentCount, setCommentCount]= useState(0)
-
+  const router= useRouter()
   
   const handleClick= async()=> {
     try{
@@ -67,7 +66,7 @@ const page:FC<pageProps> = ({params}) => {
           throw new Error('Network connection error!')
         }
         const data1= await res1.json()
-        console.log(data1);
+       // console.log(data1);
         
         setUserComments(data1)
         setCommentCount(data1.length)
@@ -88,9 +87,10 @@ const page:FC<pageProps> = ({params}) => {
 
 
   return (
-    <div>
+    <div className=''>
       <Navbar />
       <div className=' p-5'>
+        <button onClick={()=> router.push('/all-blogs')} className=' p-3 px-6 bg-green-600 rounded-md hover:bg-orange-600 mb-3 text-white'>Back</button>
         <div className='text-[2.4rem] text-red-900 mb-6 font-bold pl-5'>{blog.title}</div>
         <img  className=' object-fill mb-5 h-[28vh] w-[22vw] rounded-lg'
             src={`${base_url}/${blog.imageUrl}`}
