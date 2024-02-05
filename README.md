@@ -21,30 +21,42 @@ This application provides users with the following features
 
 ## Step-2
 
-![Screenshot from 2024-01-29 12-29-53](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/5a945d1d-af23-4937-ab84-c57c2e2d7102)
+![Screenshot from 2024-02-05 19-21-37](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/50880301-53a0-4a7c-a425-f88550ebeff7)
+
 
 ## Step-3
 
-![Screenshot from 2024-01-29 12-31-43](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/d970703d-b167-4e5d-af42-1f8cdc0fed11)
+![Screenshot from 2024-02-05 19-23-03](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/1daf784b-d9b1-4550-8f04-ac282d0ffad9)
+
 
 ## Step-4
 
-![Screenshot from 2024-01-29 12-32-33](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/8c517edb-0581-465e-8958-d002c2a19195)
+![Screenshot from 2024-02-05 19-25-20](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/224ed461-cf63-455b-a891-d8fe505d5598)
+
 
 ## Step-5
 
-![Screenshot from 2024-01-29 12-35-14](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/ad0f41dd-7e59-4788-827b-0e62a5cb90b1)
+![Screenshot from 2024-02-05 19-26-07](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/d1dab6e4-e724-4be3-9136-f4d9712c2770)
+
 
 ## Step-6
 
-![Screenshot from 2024-01-29 12-40-53](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/5bba3746-2af9-4f24-8ffc-7774a02f261f)
+![Screenshot from 2024-02-05 19-37-10](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/39a9745f-f977-415c-8678-2cd4cb92bcc1)
+
 
 ## Step-7
 
-![Screenshot from 2024-01-29 12-47-11](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/7947fd92-d6ce-4400-86b4-9139b5b2dcca)
+![Screenshot from 2024-02-05 19-26-33](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/e99e20e9-39ef-4b4a-8f77-6f18ad6d5028)
+
 
 ## Step-8
 
-![Screenshot from 2024-01-29 12-47-51](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/5f6ca73f-206a-4edf-aa72-5bbe3fe4b84d)
+![Screenshot from 2024-02-05 19-28-10](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/8d6e1290-0c1f-4bfb-b3e2-9349e7e40340)  
+
+## Step-9
+
+![Screenshot from 2024-02-05 19-44-05](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/7be2432b-dd8e-4f0c-be34-a7e2525f9677)
+
+
 
 
