@@ -26,7 +26,8 @@ This application provides users with the following features
 
 ## Step-3
 
-![Screenshot from 2024-02-05 19-23-03](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/1daf784b-d9b1-4550-8f04-ac282d0ffad9)
+![Screenshot from 2024-02-05 19-48-00](https://github.com/DikshakAdhikari/Blogging-Application/assets/69723589/08c5853b-db1a-4700-b6f0-7830237655d7)
+
 
 
 ## Step-4
