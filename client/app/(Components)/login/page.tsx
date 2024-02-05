@@ -44,7 +44,7 @@ const Login = () => {
       }
     
   return (
-    <div className="flex flex-col  h-[100vh] bg-gradient-to-br from-yellow-500 to-blue-500">
+    <div className="flex flex-col  h-[100vh]">
       <Navbar />
     
       <div className="flex justify-center items-center h-[86vh] ">

@@ -89,7 +89,7 @@ const page:FC<pageProps> = ({params}) => {
   return (
     <div className=''>
       <Navbar />
-      <div className=' p-5'>
+      <div className=' h-[100vh]  p-5'>
         <button onClick={()=> router.push('/all-blogs')} className=' p-3 px-6 bg-green-600 rounded-md hover:bg-orange-600 mb-3 text-white'>Back</button>
         <div className='text-[2.4rem] text-red-900 mb-6 font-bold pl-5'>{blog.title}</div>
         <img  className=' object-fill mb-5 h-[28vh] w-[22vw] rounded-lg'

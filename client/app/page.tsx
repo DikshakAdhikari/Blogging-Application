@@ -26,7 +26,7 @@ export default function Home() {
   const sentence = 'A Blogging Application to sort every query'
   const words = sentence.split(' ');
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-yellow-500 to-blue-500">
+    <div className="flex flex-col h-[100vh] bg-gradient-to-br ">
       <div className='sticky'>
         <Navbar />
       </div>

@@ -49,7 +49,7 @@ const Page = () => {
   
     
     return (
-      <div className=" bg-gradient-to-br from-yellow-500 to-blue-500 h-[100vh] flex flex-col">
+      <div className="  h-[100vh] flex flex-col">
       <Navbar />
 
       <div className=" flex flex-col items-center  h-[100%] ">

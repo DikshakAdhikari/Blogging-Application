@@ -82,7 +82,7 @@ export default function Page() {
     }
   }
   return (
-    <div className="  bg-gradient-to-br from-yellow-500 to-blue-500 h-[100vh]">
+    <div className="  h-[100vh]">
       <Navbar />
       <div className=" flex justify-center font-bold mt-5 mb-5 text-[2rem]  text-blue-950 ">
         My Created Blogs
