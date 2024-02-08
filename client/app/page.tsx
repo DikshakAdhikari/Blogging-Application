@@ -16,7 +16,7 @@ const data= [
     desc:"User can search their favourite creator blog in in fraction of seconds"
   },
   {
-    title:"Creator can delete comments",
+    title:"Creator can delete comments and blogs",
     desc:"Creator of the blog can delete comment that is not good of his community"
   }
 ]

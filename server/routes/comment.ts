@@ -35,5 +35,13 @@ commentRouter.delete('/:commentId',verifyJwt , async (req,res)=> {
     }
 })
 
+// commentRouter.delete('/:commentId',verifyJwt , async (req,res)=> {
+//     try{
+//         const commentToDelete= await comment.deleteOne({_id: req.params.commentId})
+//     }catch(err){
+//         res.status(403).json(err);
+//     }
+// })
+
 
 export default commentRouter
