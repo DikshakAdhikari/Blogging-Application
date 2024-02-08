@@ -11,7 +11,7 @@ This application provides users with the following features
 - Serving all CRUD operations, with add on comment facility.
 - Pagination, Search and Sort implementation on server side for robust support.
 - Authentication using **JWT Tokens**
-- A **Global Blogging Application** that can be used to create blog with **upload pictures** facility both while creating blog and registering to the Blogging Portal.
+- A **Blogging Application** that can be used to create blog with **upload pictures** facility both while creating blog and registering to the Blogging Portal.
 
 ## Step-1
 
