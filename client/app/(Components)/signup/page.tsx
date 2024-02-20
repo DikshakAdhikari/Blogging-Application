@@ -73,6 +73,35 @@ const Page = () => {
       inputRef.current.click()
     }
 
+    const sendImage = async ()=> {
+      console.log(file?.name);
+      console.log(file?.type);
+      try{
+        const res= await fetch(`${base_url}/user/picture`, {
+          method:"POST",
+          //@ts-ignore
+          headers: {
+            'Content-Type':"application/json",
+            'token': localStorage.getItem('token'),
+          },
+          body: JSON.stringify({
+            filename: file?.name,
+            contentType:file?.type
+          })
+        });
+        if(!res.ok){
+          throw new Error('Network problem!')
+        }
+        const data= await res.json()
+        console.log(data);
+        
+      }catch(err){
+        console.log(err);
+        
+      }
+      
+      
+    }
 return (
   <div className="flex flex-col  h-[100vh]">
   <Navbar />
@@ -100,6 +129,7 @@ return (
         />
         
         </div>
+        <button onClick={sendImage} className=' px-5 py-2 bg-cyan-500 rounded-md text-white'>Upload</button>
         {/* <button className=' m-4 flex justify-center text-white font-bold p-3 px-8 bg-green-600 rounded-lg'>Upload</button> */}
         {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
         <label htmlFor="email" className="block text-gray-600 text-sm font-medium mb-2">
