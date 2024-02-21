@@ -1,54 +1,28 @@
 import express from 'express'
 import user from '../models/user'
 import { verifyJwt } from '../middlewares/veriftJwt'
-import multer from 'multer'
-import path from 'path'
-
-import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3"
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
+import { getObjectUrl, putObject } from '../services/aws-client'
 
 const userRouter= express.Router()
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, path.resolve('./public/uploads/'))
-    },
-    filename: function (req, file, cb) {
-        const fileName= `${Date.now()}-${file.originalname}`
-      cb(null, fileName) // .jpeg
-    }
-  })
 
-  const upload = multer({ storage: storage })
-
-userRouter.post('/' , upload.single('file'), async (req, res)=> {
+userRouter.post('/', async (req,res)=> {
     try{
+        const {fullName, email, password, filename, contentType } = req.body
+        console.log(fullName, email, password, filename, contentType);
         
-        const {fullName, email, password, role} = req.body
-        const isUserExists = await user.findOne({fullName, email})
-        if(isUserExists){ 
-            return res.json('User already exists!')
-        }
         
-        if(!req.file){
-            const data= await user.create({
-                fullName , email, password, role
-            })
-            data.save()
-            res.send('User created successfully!')
-        }
-        else{
-        const data= await user.create({
-            imageUrl: `/uploads/${req.file?.filename}`,
-            fullName , email, password, role
-        })
-        data.save()
-        res.send('User created successfully!')
-    }
+        const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`
+        
+        const  userDetails = await user.create({
+            fullName, email, password, imageUrl:img
+        });
+      
+        res.json('user saved successfully!')  
     }catch(err){
-        res.status(403).json(err)
+        res.json(err);
     }
-})
+} )
 
 userRouter.post('/signin', async (req, res)=> {
     try{   
@@ -71,12 +45,10 @@ userRouter.post('/signin', async (req, res)=> {
 userRouter.post('/picture' , async (req,res)=> {
     try{
         const {filename, contentType}= req.body;
-        console.log(filename, contentType);
-        // //@ts-ignore
-        // global.filename= filename;
         // //@ts-ignore
         // global.contentType= contentType
         const url= await putObject(`image-${filename}`, contentType);
+        res.json(url)
         
         
     }catch(err){
@@ -97,45 +69,45 @@ userRouter.get('/:id', verifyJwt, async(req,res)=> {
 })
 
 
-const s3Client= new S3Client({
-    region:"ap-south-1",
-    credentials: {
-        accessKeyId: 'AKIA3W66FKKVR2K4WLRL',
-        secretAccessKey:'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'
-    }
-});
+// const s3Client= new S3Client({
+//     region:"ap-south-1",
+//     credentials: {
+//         accessKeyId: 'AKIA3W66FKKVR2K4WLRL',
+//         secretAccessKey:'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'
+//     }
+// });
 
-//@ts-ignore
-async function getObjectUrl(key){ //This function will give a url such that we can view particular image
-    const command= new GetObjectCommand({
-        Bucket: 'blog.dikshak',
-        Key: key,
-    });
+// //@ts-ignore
+// async function getObjectUrl(key){ //This function will give a url such that we can view particular image
+//     const command= new GetObjectCommand({
+//         Bucket: 'blog.dikshak',
+//         Key: key,
+//     });
 
-    const url= await getSignedUrl(s3Client, command); //logic for generating signed url means url containing secrets.
-    return url;
-}
+//     const url= await getSignedUrl(s3Client, command); //logic for generating signed url means url containing secrets.
+//     return url;
+// }
 
-//@ts-ignore
-async function putObject(filename, contentType){
-    const command= new PutObjectCommand({
-        Bucket: 'blog.dikshak',
-        Key: `uploads/profile-pic/${filename}`,
-        ContentType: contentType
-    })
-    const url= await getSignedUrl(s3Client, command);
-    return url;
-}
+// //@ts-ignore
+// async function putObject(filename, contentType){
+//     const command= new PutObjectCommand({
+//         Bucket: 'blog.dikshak',
+//         Key: `uploads/profile-pic/${filename}`,
+//         ContentType: contentType
+//     })
+//     const url= await getSignedUrl(s3Client, command);
+//     return url;
+// }
 
-async function init(){
-    //@ts-ignore
-    // console.log('Url for minions', await getObjectUrl(`uploads/profile-pic/image-${global.filename}`));
-    //@ts-ignore
-    console.log('Url for uploading', await putObject(`image-${global.filename}`, global.contentType));
+// async function init(){
+//     //@ts-ignore
+//     // console.log('Url for minions', await getObjectUrl(`uploads/profile-pic/image-${global.filename}`));
+//     //@ts-ignore
+//     console.log('Url for uploading', await putObject(`image-${global.filename}`, global.contentType));
 
-}
+// }
 
-init();
+// // init();
 
 export default userRouter
 

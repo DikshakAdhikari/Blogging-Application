@@ -10,9 +10,9 @@ const s3Client= new S3Client({
 });
 
 //@ts-ignore
-async function getObjectUrl(key){ //This function will give a url such that we can view particular image
+  export async function getObjectUrl(key){ //This function will give a url such that we can view particular image
     const command= new GetObjectCommand({
-        Bucket: 'dikshak-private',
+        Bucket: 'blog.dikshak',
         Key: key,
     });
 
@@ -21,10 +21,10 @@ async function getObjectUrl(key){ //This function will give a url such that we c
 }
 
 //@ts-ignore
-async function putObject(filename, contentType){
+ export async function putObject(filename, contentType){
     const command= new PutObjectCommand({
-        Bucket: 'dikshak-private',
-        Key: `/uploads/user-uploads/${filename}`,
+        Bucket: 'blog.dikshak',
+        Key: `uploads/profile-pic/${filename}`,
         ContentType: contentType
     })
     const url= await getSignedUrl(s3Client, command);
@@ -32,9 +32,11 @@ async function putObject(filename, contentType){
 }
 
 async function init(){
-    console.log('Url for minions', await getObjectUrl("/uploads/user-uploads/image-1708337870359.png"));
-    // console.log('Url for uploading', await putObject(`image-${Date.now()}.png`, "image/png"));
+    //@ts-ignore
+    // console.log('Url for minions', await getObjectUrl(`uploads/profile-pic/image-${global.filename}`));
+    //@ts-ignore
+    console.log('Url for uploading', await putObject(`image-${global.filename}`, global.contentType));
 
 }
 
-init();
+// init();

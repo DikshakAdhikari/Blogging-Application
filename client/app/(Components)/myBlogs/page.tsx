@@ -94,7 +94,7 @@ export default function Page() {
        {image?.map((val:any)=> (
       <div className="  hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
        <Image className=" object-fill w-full h-52"
-      src={`${base_url}/${val.imageUrl}`}
+      src={val.imageUrl}
       width={500}
       height={100}
       alt="Picture of the author"

@@ -30,6 +30,7 @@ const Page = () => {
         }
        
         const data= await res.json()
+       console.log(data);
        
      
         setcardData(data)
@@ -54,13 +55,14 @@ const Page = () => {
 
       <div className=" flex flex-col items-center  h-[100%] ">
          <input onChange={(e)=> setSearch(e.target.value)} className=" shadow-md m-4 mt-6 p-3 outline-none border-2 border-gray-200 text-gray-700 w-[30vw] rounded-lg" placeholder="Search Blog Title" type="text" />
+         <div>
     
       {(search!=""&& cardData.length === 0) ? "Page not found" : 
       <div className=" grid grid-cols-1 md:grid-cols-3  p-5 gap-10">
        {cardData?.content?.map((val:any)=> (
       <div className="  rounded-lg hover:scale-105 transition duration-150 border-[1px] w-[23vw] border-gray-300">   
        <Image className=" rounded-lg rounded-b-none object-fill w-full h-52"
-      src={`${base_url}/${val.imageUrl}`}
+      src={val.imageUrl}
       width={400}
       height={100}
       alt="Picture of the author"
@@ -71,13 +73,12 @@ const Page = () => {
           <button onClick={()=> router.push(`/viewBlog/${val._id}`)} className=" w-[5vw] hover:bg-red-600 bg-green-700 text-white p-3 px-5 rounded-md">View</button>
           <div className=" flex items-center justify-between gap-3">
             <div className=" flex gap-2 items-center">
- 
-          <Image
+        
+          <img
           //@ts-ignore
           class="img"
-            src={`${base_url}/${val?.createdBy?.imageUrl}`}
-            width={80}
-            height={80}
+            src={val.createdBy.imageUrl}
+           
             alt="Picture of the author"
           />
         
@@ -90,9 +91,10 @@ const Page = () => {
       ))}  
       </div> 
        }
+       </div>
   </div>
   
-  <div className=" flex p-3 pb-8 justify-center">
+  <div className=" flex p-3 mt-10 justify-center">
   <Pagination totalDocuments={cardData.docsCount} limit={cardData.limit} page={page} setPage={setPage} />
   </div>
   

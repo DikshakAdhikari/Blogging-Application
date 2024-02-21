@@ -121,7 +121,12 @@ interface pageProps{
         const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
           method:"PUT",
           credentials: "include",
-          body:formData
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            title, description
+          })
         })
   
         if(!res.ok){
@@ -148,7 +153,7 @@ interface pageProps{
       <div className=" flex justify-center px-9  m-5">
       <div className=" w-[100%] flex ">
       <img className=" object-fill rounded-xl w-[40vw] h-[65vh]"
-      src={`${base_url}/${image}`}
+      src={image}
       alt="Picture of the author" 
     />
     </div>

@@ -3,6 +3,7 @@ import { verifyJwt } from '../middlewares/veriftJwt'
 import multer from 'multer'
 import blog from '../models/blog'
 import path from 'path'
+import { putObject } from '../services/aws-client'
 const blogRouter= express.Router()
 
 
@@ -82,14 +83,16 @@ const storage = multer.diskStorage({
 
   const upload = multer({ storage: storage })
 
-blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
+blogRouter.post('/', verifyJwt ,  async(req,res)=> {
     try{
-        const {title , description}= req.body
+        const {title , description, filename, contentType}= req.body
+        console.log(title , description, filename, contentType);
+        
          const userId= req.headers['userId']
          //console.log(req.file?.filename);
          
         const data = await blog.create({
-            imageUrl: `/uploads/${req.file?.filename}`,
+            imageUrl: `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`,
             title: title,
             description: description,
             createdBy: userId,
@@ -103,10 +106,28 @@ blogRouter.post('/', verifyJwt , upload.single('file'), async(req,res)=> {
     }
 })
 
+blogRouter.post('/picture' , async (req,res)=> {
+    try{
+        const {filename, contentType}= req.body;
+        console.log(filename, contentType);
+        // //@ts-ignore
+        // global.filename= filename;
+        // //@ts-ignore
+        // global.contentType= contentType
+        const url= await putObject(`image-${filename}`, contentType);
+        res.json(url)   
+        
+    }catch(err){
+        res.json(err)
+    }
+} )
 
-blogRouter.put('/update/:blogId', verifyJwt,upload.single('file'), async (req,res)=> {
+
+blogRouter.put('/update/:blogId', async (req,res)=> {
     try{
         const {title , description}= req.body
+        console.log(title, description);
+        
         const UserId= req.headers['userId']
         let imageDestination;
         if(!req.file){  

@@ -14,7 +14,10 @@ const Page = () => {
   const [password, setPassword]= useState('')
   const [file, setFile] = useState<File | null>(null);
   const [error, setError]= useState('')
-  const [image , setImage]= useState(null)
+  const [disable, setDisable]= useState(false)
+
+  const [message, setMessage]= useState('')
+
   const router= useRouter()
 
   const inputRef= useRef(null)
@@ -40,23 +43,29 @@ const Page = () => {
 
   const handleSignup= async(e:FormEvent<HTMLFormElement>)=>{
       e.preventDefault();
-      const formData= new FormData()
-      if(file){
-        formData.append('file', file)
-      }
-      formData.append('fullName', username)
-      formData.append('email', email)
-      formData.append('password', password)
+     
 
       try{
         const res= await fetch(`${base_url}/user/`,{
           method:"POST",
           credentials:'include',
-          body: formData
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          
+          body: JSON.stringify({
+            fullName: username,
+            email:email,
+            password: password,
+            filename: file?.name,
+            contentType:file?.type
+          })
         })
         if(!res.ok){
           throw new Error('Network connection error!')
         }
+        const data= await res.json()
+        console.log(data);
         
         Swal.fire("User registered successfully!");
         router.push('/login')
@@ -74,8 +83,8 @@ const Page = () => {
     }
 
     const sendImage = async ()=> {
-      console.log(file?.name);
-      console.log(file?.type);
+      // console.log(file?.name);
+      // console.log(file?.type);
       try{
         const res= await fetch(`${base_url}/user/picture`, {
           method:"POST",
@@ -93,15 +102,46 @@ const Page = () => {
           throw new Error('Network problem!')
         }
         const data= await res.json()
-        console.log(data);
+        
+        
+        if(data){
+          const s3PutUrl= data;
+
+          const res2= await fetch(s3PutUrl, {
+            method:"PUT",
+            //@ts-ignore
+            headers: {
+              "Access-Control-Allow-Headers" : "Content-Type",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "*",
+              "Content-Type": file?.type
+            },
+            body:file
+          });
+          console.log('dfdfdfd');
+          if(!res2.ok){
+            throw new Error("Network Problem!");
+          }
+          
+          setDisable(true)
+          setMessage("Profile Picture uploaded successfully!")
+          
+        }else{
+          setMessage("Error while uploading")
+        }
         
       }catch(err){
+        setDisable(false)
+        setMessage("Error while uploading")
         console.log(err);
         
       }
       
       
     }
+
+    //console.log(message);
+    
 return (
   <div className="flex flex-col  h-[100vh]">
   <Navbar />
@@ -129,9 +169,12 @@ return (
         />
         
         </div>
-        <button onClick={sendImage} className=' px-5 py-2 bg-cyan-500 rounded-md text-white'>Upload</button>
-        {/* <button className=' m-4 flex justify-center text-white font-bold p-3 px-8 bg-green-600 rounded-lg'>Upload</button> */}
+        <div className=' flex justify-center flex-col items-center gap-2 m-3'>
+        <button disabled={disable} onClick={sendImage} className={` ${disable ? ' bg-gray-500' : 'bg-cyan-500'} px-5 py-2 bg-cyan-500  rounded-sm text-white`}>Upload</button>
+        
         {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
+        <div className=' text-green-700 font-medium'>{message}</div>
+        </div>
         <label htmlFor="email" className="block text-gray-600 text-sm font-medium mb-2">
           Username
         </label>
