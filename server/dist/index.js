@@ -20,7 +20,6 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-app.use(express_1.default.static('public')); //It means our image will be inside public(root) folder i.e- uploads/img_name -> http://localhost:3000/uploads/img_name
 app.use('/user', user_1.default);
 app.use('/blog', blog_1.default);
 app.use('/comment', comment_1.default);

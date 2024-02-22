@@ -40,9 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var veriftJwt_1 = require("../middlewares/veriftJwt");
 var comment_1 = __importDefault(require("../models/comment"));
 var commentRouter = express_1.default.Router();
-commentRouter.post('/:blogId/:userId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+commentRouter.post('/:blogId', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var comments, postComment, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -51,7 +52,7 @@ commentRouter.post('/:blogId/:userId', function (req, res) { return __awaiter(vo
                 comments = req.body.comments;
                 return [4 /*yield*/, comment_1.default.create({
                         comments: comments,
-                        blogId: req.params.blogId, userId: req.params.userId
+                        blogId: req.params.blogId, userId: req.headers['userId']
                     })];
             case 1:
                 postComment = _a.sent();
@@ -74,7 +75,7 @@ commentRouter.get('/:blogId', function (req, res) { return __awaiter(void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, comment_1.default.find({ blogId: req.params.blogId })];
+                return [4 /*yield*/, comment_1.default.find({ blogId: req.params.blogId }).populate('userId')];
             case 1:
                 userComments = _a.sent();
                 res.json(userComments);
@@ -87,4 +88,29 @@ commentRouter.get('/:blogId', function (req, res) { return __awaiter(void 0, voi
         }
     });
 }); });
+commentRouter.delete('/:commentId', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var commentToDelete, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, comment_1.default.deleteOne({ _id: req.params.commentId })];
+            case 1:
+                commentToDelete = _a.sent();
+                return [3 /*break*/, 3];
+            case 2:
+                err_3 = _a.sent();
+                res.status(403).json(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+// commentRouter.delete('/:commentId',verifyJwt , async (req,res)=> {
+//     try{
+//         const commentToDelete= await comment.deleteOne({_id: req.params.commentId})
+//     }catch(err){
+//         res.status(403).json(err);
+//     }
+// })
 exports.default = commentRouter;

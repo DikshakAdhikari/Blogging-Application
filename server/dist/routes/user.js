@@ -42,36 +42,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var user_1 = __importDefault(require("../models/user"));
 var veriftJwt_1 = require("../middlewares/veriftJwt");
+var aws_client_1 = require("../services/aws-client");
 var userRouter = express_1.default.Router();
 userRouter.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, fullName, email, password, role, isUserExists, data, err_1;
+    var _a, fullName, email, password, filename, contentType, img, userDetails, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 3, , 4]);
-                _a = req.body, fullName = _a.fullName, email = _a.email, password = _a.password, role = _a.role;
-                return [4 /*yield*/, user_1.default.findOne({ fullName: fullName, email: email })];
-            case 1:
-                isUserExists = _b.sent();
-                if (isUserExists) {
-                    return [2 /*return*/, res.json('User already exists!')];
-                }
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, fullName = _a.fullName, email = _a.email, password = _a.password, filename = _a.filename, contentType = _a.contentType;
+                console.log(fullName, email, password, filename, contentType);
+                img = "https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-".concat(filename);
                 return [4 /*yield*/, user_1.default.create({
                         fullName: fullName,
                         email: email,
                         password: password,
-                        role: role
+                        imageUrl: img
                     })];
+            case 1:
+                userDetails = _b.sent();
+                res.json('user saved successfully!');
+                return [3 /*break*/, 3];
             case 2:
-                data = _b.sent();
-                data.save();
-                res.send('User created successfully!');
-                return [3 /*break*/, 4];
-            case 3:
                 err_1 = _b.sent();
-                res.status(403).json(err_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                res.json(err_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
@@ -91,8 +87,10 @@ userRouter.post('/signin', function (req, res) { return __awaiter(void 0, void 0
                 return [4 /*yield*/, user_1.default.matchPasswordAndGiveToken(isValidUser._id, email, isValidUser.role, password)];
             case 2:
                 token = _b.sent();
-                res.cookie('token', token, { secure: true, httpOnly: false, path: '/' });
-                res.json(isValidUser);
+                if (!token) {
+                    throw new Error('Invalid user');
+                }
+                res.json(token);
                 return [3 /*break*/, 4];
             case 3:
                 err_2 = _b.sent();
@@ -102,20 +100,45 @@ userRouter.post('/signin', function (req, res) { return __awaiter(void 0, void 0
         }
     });
 }); });
-userRouter.get('/k', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, rolee, token, obj;
+userRouter.post('/picture', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, filename, contentType, url, err_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, filename = _a.filename, contentType = _a.contentType;
+                return [4 /*yield*/, (0, aws_client_1.putObject)("image-".concat(filename), contentType)];
+            case 1:
+                url = _b.sent();
+                res.json(url);
+                return [3 /*break*/, 3];
+            case 2:
+                err_3 = _b.sent();
+                res.json(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+userRouter.get('/:id', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var getUser, err_4;
     return __generator(this, function (_a) {
-        id = req.headers['userId'];
-        rolee = req.headers['role'];
-        token = req.cookies['token'];
-        console.log(token);
-        obj = {
-            id: id,
-            rolee: rolee,
-            token: token
-        };
-        res.send(obj);
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, user_1.default.findById(req.params.id)];
+            case 1:
+                getUser = _a.sent();
+                if (getUser) {
+                    return [2 /*return*/, res.json(req.headers['userId'])];
+                }
+                return [2 /*return*/, res.status(402).json("Such user with userId does not exists!")];
+            case 2:
+                err_4 = _a.sent();
+                res.status(404).json(err_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
 }); });
 exports.default = userRouter;

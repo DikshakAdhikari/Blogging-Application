@@ -14,7 +14,7 @@ var generateToken = function (userId, email, role) {
     if (!process.env.SECRET_KEY) {
         return;
     }
-    var token = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' });
+    var token = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, { expiresIn: '2h' });
     //console.log(token);
     return token;
 };
