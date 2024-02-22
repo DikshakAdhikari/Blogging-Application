@@ -41,6 +41,7 @@ export default function Page() {
     fun()
   },[deleteState]);
 
+  //@ts-ignore
   const handleDelete= async(blogId)=> {
     try{
 

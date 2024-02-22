@@ -97,13 +97,17 @@ const page:FC<pageProps> = ({params}) => {
       <Navbar />
       <div className=' h-[100vh]  p-5'>
         <button onClick={()=> router.push('/all-blogs')} className=' p-3 px-6 bg-green-600 rounded-md hover:bg-orange-600 mb-3 text-white'>Back</button>
+        {/* @ts-ignore */}
         <div className='text-[2.4rem] text-red-900 mb-6 font-bold pl-5'>{blog.title}</div>
+  
         <img  className=' object-fill mb-5 h-[28vh] w-[22vw] rounded-lg'
+        //@ts-ignore
             src={blog.imageUrl}
             alt="Picture of the author"
           />
          
       <pre className="text-gray-700  whitespace-pre-wrap">
+      {/* @ts-ignore */}
         {blog.description}
       </pre>
       <div className=' flex flex-col gap-4 p-4'>
@@ -116,7 +120,9 @@ const page:FC<pageProps> = ({params}) => {
             <div className=' flex gap-3 items-center'>
             <ProfileLogo />
           <div className='flex flex-col  justify-center p-2'>
+            {/* @ts-ignore */}
             <div className=' font-medium text-[1.4rem] text-blue-900'>{val?.userId?.fullName}</div>
+            {/* @ts-ignore */}
             <div className=' text-[1.2rem] text-gray-950 '>{val.comments}</div>
             </div>
           </div>

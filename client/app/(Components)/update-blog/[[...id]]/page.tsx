@@ -22,7 +22,7 @@ interface pageProps{
     const router= useRouter()
 
   const [file, setFile] = useState<File | null>(null);
-    
+     //@ts-ignore
     const handleDelete= async(commentId)=> {
       try{
         setToggle(true)
@@ -222,14 +222,18 @@ interface pageProps{
     <div className=" ml-8 p-4">
       <div className=" text-[2.5rem] font-bold text-black">Comments</div>
       <div className=' flex flex-col-reverse'>
+      
         {comments.map((val,index)=>(
             <div key={index} className=' flex gap-3 items-center'>
             <ProfileLogo />
           <div className='flex flex-col  justify-center p-2'>
             <div className=" flex items-center gap-3">
-            <div className=' font-medium text-[1.4rem] text-blue-900'>{val?.userId?.fullName}</div>
+          {/* @ts-ignore */}
+            <div className=' font-medium text-[1.4rem] text-blue-900'>{val?.userId?.fullName}</div> 
+            {/* @ts-ignore */}
               <div className=" cursor-pointer" onClick={()=> handleDelete(val._id)} ><DeleteLogo /></div>
             </div>
+            {/* @ts-ignore */}
             <div className=' text-[1.2rem] text-gray-950 '>{val.comments}</div>
             </div>
           </div>

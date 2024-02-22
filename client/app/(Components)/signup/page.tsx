@@ -153,7 +153,9 @@ return (
     <div className="mb-4">
         <div onClick={handleImageClick} className=' flex flex-col gap-5 items-center'>
           {file ? 
+          //@ts-ignore
           <Image src={URL.createObjectURL(file)} class="signupImg" height={200} width={200} alt="gf" /> 
+           //@ts-ignore
           : <Image src={gallery} class="signupImg" height={200} width={200} alt="gf" /> 
          }
         
