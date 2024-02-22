@@ -9,8 +9,6 @@ const userRouter= express.Router()
 userRouter.post('/', async (req,res)=> {
     try{
         const {fullName, email, password, filename, contentType } = req.body
-        console.log(fullName, email, password, filename, contentType);
-        
         
         const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`
         
@@ -35,8 +33,8 @@ userRouter.post('/signin', async (req, res)=> {
         if(!token){
             throw new Error('Invalid user')
         }
-        res.cookie('token', token, { secure: true, httpOnly: false, path: '/' });
-         res.json(isValidUser)
+        
+         res.json(token)
     }catch(err){
         res.status(403).json(err)
     }
@@ -45,8 +43,6 @@ userRouter.post('/signin', async (req, res)=> {
 userRouter.post('/picture' , async (req,res)=> {
     try{
         const {filename, contentType}= req.body;
-        // //@ts-ignore
-        // global.contentType= contentType
         const url= await putObject(`image-${filename}`, contentType);
         res.json(url)
         
@@ -69,45 +65,6 @@ userRouter.get('/:id', verifyJwt, async(req,res)=> {
 })
 
 
-// const s3Client= new S3Client({
-//     region:"ap-south-1",
-//     credentials: {
-//         accessKeyId: 'AKIA3W66FKKVR2K4WLRL',
-//         secretAccessKey:'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'
-//     }
-// });
-
-// //@ts-ignore
-// async function getObjectUrl(key){ //This function will give a url such that we can view particular image
-//     const command= new GetObjectCommand({
-//         Bucket: 'blog.dikshak',
-//         Key: key,
-//     });
-
-//     const url= await getSignedUrl(s3Client, command); //logic for generating signed url means url containing secrets.
-//     return url;
-// }
-
-// //@ts-ignore
-// async function putObject(filename, contentType){
-//     const command= new PutObjectCommand({
-//         Bucket: 'blog.dikshak',
-//         Key: `uploads/profile-pic/${filename}`,
-//         ContentType: contentType
-//     })
-//     const url= await getSignedUrl(s3Client, command);
-//     return url;
-// }
-
-// async function init(){
-//     //@ts-ignore
-//     // console.log('Url for minions', await getObjectUrl(`uploads/profile-pic/image-${global.filename}`));
-//     //@ts-ignore
-//     console.log('Url for uploading', await putObject(`image-${global.filename}`, global.contentType));
-
-// }
-
-// // init();
 
 export default userRouter
 

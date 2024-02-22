@@ -86,10 +86,8 @@ const storage = multer.diskStorage({
 blogRouter.post('/', verifyJwt ,  async(req,res)=> {
     try{
         const {title , description, filename, contentType}= req.body
-        console.log(title , description, filename, contentType);
         
          const userId= req.headers['userId']
-         //console.log(req.file?.filename);
          
         const data = await blog.create({
             imageUrl: `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`,
@@ -109,11 +107,6 @@ blogRouter.post('/', verifyJwt ,  async(req,res)=> {
 blogRouter.post('/picture' , async (req,res)=> {
     try{
         const {filename, contentType}= req.body;
-        console.log(filename, contentType);
-        // //@ts-ignore
-        // global.filename= filename;
-        // //@ts-ignore
-        // global.contentType= contentType
         const url= await putObject(`image-${filename}`, contentType);
         res.json(url)   
         
@@ -125,9 +118,7 @@ blogRouter.post('/picture' , async (req,res)=> {
 
 blogRouter.put('/update/:blogId', async (req,res)=> {
     try{
-        const {title , description}= req.body
-        console.log(title, description);
-        
+        const {title , description}= req.body     
         const UserId= req.headers['userId']
         let imageDestination;
         if(!req.file){  
@@ -158,16 +149,6 @@ blogRouter.put('/update/:blogId', async (req,res)=> {
     }
 })
 
-
-// blogRouter.get('/all' , async(req, res)=> {
-//     try{
-//         const data= await blog.find().populate('createdBy')
-      
-//         res.json(data)
-//     }catch(err){
-//         res.status(403).json(err)
-//     }
-// })
 
 blogRouter.get('/userBlog', verifyJwt, async(req,res)=> {
     try{

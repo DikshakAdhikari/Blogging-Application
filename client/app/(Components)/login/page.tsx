@@ -23,17 +23,18 @@ const Login = () => {
               Accept: 'application/json',
               'Content-Type':'application/json'
             },
-            //credentials: 'same-origin',
             body:JSON.stringify({email,password}),
           })
           if(!res.ok){
             throw new Error('Network connection error!')
           }
           const data= await res.json()
-          //console.log(data._id);
+          console.log(data);
+          localStorage.setItem('token',data)
+          
           dispatch(setUser(data._id))
           
-          if(Cookies.get('token'))
+          if(localStorage.getItem('token'))
           // dispatch(setUser((id:)))
           router.push('/createBlog')
     

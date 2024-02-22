@@ -18,8 +18,10 @@ export default function Page() {
         const res= await fetch(`${base_url}/blog/userBlog`,{
         method:"GET",
         credentials:"include", 
+        //@ts-ignore
         headers:{
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem('token')
         }
       })
       if(!res.ok){
@@ -55,8 +57,10 @@ export default function Page() {
           const res= await fetch(`${base_url}/blog/remove/${blogId}`,{
             method:"DELETE",
             credentials:'include',
+            //@ts-ignore
             headers:{
               'Content-Type':'application/json',
+              'authorization': localStorage.getItem('token')
             }
           })
           if(!res.ok){

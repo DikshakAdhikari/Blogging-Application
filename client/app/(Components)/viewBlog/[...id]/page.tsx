@@ -23,8 +23,10 @@ const page:FC<pageProps> = ({params}) => {
       const res= await fetch(`${base_url}/comment/${params.id[0]}`,{
         method:"POST",
         credentials:'include',
+        //@ts-ignore
         headers:{
-          'Content-Type':'application/json'
+          'Content-Type':'application/json',
+          'authorization': localStorage.getItem('token')
         },
         body:JSON.stringify({comments})
       });
@@ -42,8 +44,10 @@ const page:FC<pageProps> = ({params}) => {
     const fun =async()=> {
       try{
         const res= await fetch(`${base_url}/blog/user/${params.id[0]}`,{
+          //@ts-ignore
           headers:{
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': localStorage.getItem('token')
           }
         })
         
@@ -57,9 +61,11 @@ const page:FC<pageProps> = ({params}) => {
           const res1= await fetch(`${base_url}/comment/${params.id[0]}`,{
           method:"GET",
           credentials:'include',
+          //@ts-ignore
           headers:{
             Accept: 'application/json',
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'authorization': localStorage.getItem('token')
           },
         })
         if(!res1.ok){

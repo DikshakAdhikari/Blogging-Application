@@ -11,14 +11,14 @@ const Navbar = () => {
     
   }
   const handleLogout = ()=> {
-    Cookies.remove('token')
+    localStorage.clear()
     router.push('/')
 
   }
 
   useEffect(()=> {
-    setToken(Cookies.get('token'))
-  })
+    setToken(localStorage.getItem('token'))
+  },[])
 
   return (
     <div className=' px-8 items-center bg-gradient-to-br from-yellow-300 to-yellow-500 justify-between flex gap-3 p-3 py-4 '>

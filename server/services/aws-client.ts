@@ -1,22 +1,24 @@
 import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
-
+import dotenv from 'dotenv'
+dotenv.config()
+//@ts-ignore
 const s3Client= new S3Client({
     region:"ap-south-1",
     credentials: {
-        accessKeyId: 'AKIA3W66FKKVR2K4WLRL',
-        secretAccessKey:'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'
+        accessKeyId: process.env.ACCESS_KEY_ID,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY
     }
 });
 
 //@ts-ignore
-  export async function getObjectUrl(key){ //This function will give a url such that we can view particular image
+  export async function getObjectUrl(key){ 
     const command= new GetObjectCommand({
         Bucket: 'blog.dikshak',
         Key: key,
     });
 
-    const url= await getSignedUrl(s3Client, command); //logic for generating signed url means url containing secrets.
+    const url= await getSignedUrl(s3Client, command); 
     return url;
 }
 

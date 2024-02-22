@@ -29,8 +29,10 @@ interface pageProps{
         const res= await fetch(`${base_url}/comment/${commentId}`,{
           method:"DELETE",
           credentials:'include',
+          //@ts-ignore
           headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'authorization': localStorage.getItem('token')
           },
         });
         if(!res.ok){
@@ -47,8 +49,10 @@ interface pageProps{
       const fun =async()=> {
         try{
           const res= await fetch(`${base_url}/blog/user/${params.id}`,{
+            //@ts-ignore
             headers:{
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'authorization': localStorage.getItem('token')
             }
           })
           
@@ -67,9 +71,11 @@ interface pageProps{
             const res1= await fetch(`${base_url}/comment/${params.id}`,{
             method:"GET",
             credentials:'include',
+            //@ts-ignoresss
             headers:{
               Accept: 'application/json',
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'authorization': localStorage.getItem('token')
             },
           })
           if(!res1.ok){
@@ -117,12 +123,14 @@ interface pageProps{
       formData.append('title', title)
       formData.append('description', description)
       try{
-        
+        //@ts-ignore
         const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
           method:"PUT",
           credentials: "include",
+          //@ts-ignore
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            'authorization': localStorage.getItem('token')
           },
           body:JSON.stringify({
             title, description

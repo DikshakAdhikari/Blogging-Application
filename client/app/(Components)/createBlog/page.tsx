@@ -27,9 +27,10 @@ const Page = () => {
       try{
         const res= await fetch(`${base_url}/blog/all`,{
         method:"GET",
-        credentials:"include", //This is very important in the case when we want to send cookies with the request
+        //@ts-ignore
         headers:{
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem('token')
         }
       })
       if(!res.ok){
@@ -78,9 +79,10 @@ const Page = () => {
     try{
       const res= await fetch(`${base_url}/blog/`, {
         method:"POST",
-        credentials: "include",
+        //@ts-ignore
         headers:{
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'authorization': localStorage.getItem('token')
         },
         body:JSON.stringify({
           title, description: content,  filename: file?.name, contentType:file?.type

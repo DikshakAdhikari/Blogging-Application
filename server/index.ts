@@ -17,7 +17,6 @@ app.use(cors({
   
 app.use(express.json())
 app.use(cookieParser())
-app.use(express.static('public')) //It means our image will be inside public(root) folder i.e- uploads/img_name -> http://localhost:3000/uploads/img_name
 
 app.use('/user',userRouter)
 app.use('/blog',blogRouter)
