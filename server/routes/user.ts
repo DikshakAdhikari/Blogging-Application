@@ -15,10 +15,10 @@ userRouter.post('/', async (req,res)=> {
         const  userDetails = await user.create({
             fullName, email, password, imageUrl:img
         });
-      
+      await userDetails.save()
         res.json('user saved successfully!')  
     }catch(err){
-        res.json(err);
+        res.status(400).json(err);
     }
 } )
 
