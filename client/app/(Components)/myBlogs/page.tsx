@@ -41,8 +41,8 @@ export default function Page() {
     fun()
   },[deleteState]);
 
-  //@ts-ignore
-  const handleDelete= async(blogId)=> {
+
+  const handleDelete= async(blogId:string)=> {
     try{
 
       Swal.fire({
