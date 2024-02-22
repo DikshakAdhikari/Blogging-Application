@@ -93,7 +93,6 @@ const Page = () => {
         throw new Error('Network problem while creating blog!');
       }
       const data= await res.json()
-      console.log(data);
       
         Swal.fire("Blog saved successfully!");
         router.push('/all-blogs')
@@ -175,7 +174,9 @@ const Page = () => {
         </label>
         <div onClick={handleImageClick} className=' flex flex-col gap-5 items-center'>
           {file ? 
+          //@ts-ignore
           <Image src={URL.createObjectURL(file)} class="signupImg" height={200} width={200} alt="gf" /> 
+          //@ts-ignore
           : <Image src={gallery} class="signupImg" height={200} width={200} alt="gf" /> 
          }
         <div className=' flex justify-center flex-col items-center gap-2 m-3'>
