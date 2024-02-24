@@ -19,7 +19,7 @@ userRouter.post('/', async (req,res)=> {
         const  userDetails = await user.create({
             fullName, email, password
         });
-       
+       userDetails.save()
         console.log(userDetails);
         
         res.json('user saved successfully!')  
