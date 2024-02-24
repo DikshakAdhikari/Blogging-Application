@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const blogSchema= new mongoose.Schema({
+const blogSchema= new mongoose.Schema({ //added
     imageUrl:{
         type:String,
         required:false
