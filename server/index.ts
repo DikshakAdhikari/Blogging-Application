@@ -7,9 +7,10 @@ import blogRouter from './routes/blog'
 import cors from 'cors'
 import commentRouter from './routes/comment'
 dotenv.config()
-connectDb()
+
 
 const app= express()
+connectDb()
 app.use(cors({
     origin: 'http://localhost:3000', 
     credentials: true, 
