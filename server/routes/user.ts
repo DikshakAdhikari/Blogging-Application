@@ -13,6 +13,8 @@ userRouter.post('/', async (req,res)=> {
         
         
         const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`
+        console.log(img);
+        
         
         const  userDetails = await user.create({
             fullName, email, password, imageUrl:img
