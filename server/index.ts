@@ -12,7 +12,7 @@ dotenv.config()
 const app= express()
 mongooseConnect()
 app.use(cors({
-    origin: 'http://localhost:3000', 
+    origin: 'https://blogging-application-im2z.vercel.app', 
     credentials: true, 
   })); 
   
