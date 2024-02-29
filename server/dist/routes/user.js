@@ -51,7 +51,6 @@ userRouter.post('/', function (req, res) { return __awaiter(void 0, void 0, void
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, fullName = _a.fullName, email = _a.email, password = _a.password, filename = _a.filename, contentType = _a.contentType;
-                console.log(fullName, email, password, filename, contentType);
                 img = "https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-".concat(filename);
                 return [4 /*yield*/, user_1.default.create({
                         fullName: fullName,
@@ -61,6 +60,8 @@ userRouter.post('/', function (req, res) { return __awaiter(void 0, void 0, void
                     })];
             case 1:
                 userDetails = _b.sent();
+                userDetails.save();
+                console.log(userDetails);
                 res.json('user saved successfully!');
                 return [3 /*break*/, 3];
             case 2:

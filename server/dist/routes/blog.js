@@ -41,9 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var veriftJwt_1 = require("../middlewares/veriftJwt");
-var multer_1 = __importDefault(require("multer"));
 var blog_1 = __importDefault(require("../models/blog"));
-var path_1 = __importDefault(require("path"));
 var aws_client_1 = require("../services/aws-client");
 var blogRouter = express_1.default.Router();
 blogRouter.get('/blogs', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -113,20 +111,6 @@ blogRouter.get('/blogs', veriftJwt_1.verifyJwt, function (req, res) { return __a
         }
     });
 }); });
-//  blogRouter.use(express.static(path.resolve('./public/uploads/')));
-var storage = multer_1.default.diskStorage({
-    destination: function (req, file, cb) {
-        //console.log(req.headers['userId']);
-        cb(null, path_1.default.resolve('./public/uploads/'));
-    },
-    filename: function (req, file, cb) {
-        // console.log(file.mimetype); // image/jpeg
-        // const ext = file.mimetype.split("/")[1]; //jpeg
-        var fileName = "".concat(Date.now(), "-").concat(file.originalname);
-        cb(null, fileName); // .jpeg
-    }
-});
-var upload = (0, multer_1.default)({ storage: storage });
 blogRouter.post('/', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, title, description, filename, contentType, userId, data, err_2;
     return __generator(this, function (_b) {
@@ -176,53 +160,35 @@ blogRouter.post('/picture', function (req, res) { return __awaiter(void 0, void 
         }
     });
 }); });
-blogRouter.put('/update/:blogId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, title, description, UserId, imageDestination, userImage, updateBlog, updateBlog, err_4;
-    var _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                _c.trys.push([0, 6, , 7]);
-                _a = req.body, title = _a.title, description = _a.description;
-                UserId = req.headers['userId'];
-                imageDestination = void 0;
-                if (!!req.file) return [3 /*break*/, 3];
-                return [4 /*yield*/, blog_1.default.findOne({ _id: req.params.blogId })
-                    //@ts-ignore
-                ];
-            case 1:
-                userImage = _c.sent();
-                //@ts-ignore
-                imageDestination = userImage === null || userImage === void 0 ? void 0 : userImage.imageUrl;
-                return [4 /*yield*/, blog_1.default.findByIdAndUpdate(req.params.blogId, { imageUrl: "".concat(imageDestination),
-                        title: title,
-                        description: description,
-                        createdBy: UserId, })];
-            case 2:
-                updateBlog = _c.sent();
-                res.json(updateBlog);
-                return [3 /*break*/, 5];
-            case 3:
-                imageDestination = (_b = req.file) === null || _b === void 0 ? void 0 : _b.filename;
-                return [4 /*yield*/, blog_1.default.findByIdAndUpdate(req.params.blogId, { imageUrl: "/uploads/".concat(imageDestination),
-                        title: title,
-                        description: description,
-                        createdBy: UserId, })];
-            case 4:
-                updateBlog = _c.sent();
-                res.json(updateBlog);
-                _c.label = 5;
-            case 5: return [3 /*break*/, 7];
-            case 6:
-                err_4 = _c.sent();
-                res.status(403).json;
-                return [3 /*break*/, 7];
-            case 7: return [2 /*return*/];
-        }
-    });
-}); });
+// blogRouter.put('/update/:blogId', async (req,res)=> {
+//     try{
+//         const {title , description}= req.body     
+//         const UserId= req.headers['userId']
+//         let imageDestination;
+//         if(!req.file){  
+//             //@ts-ignore
+//              const userImage= await blog.findOne({_id:req.params.blogId})
+//              //@ts-ignore
+//              imageDestination=userImage?.imageUrl
+//              const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl:`${imageDestination}`,
+//              title: title,
+//              description: description,
+//              createdBy: UserId,} )
+//             res.json(updateBlog)
+//         }else{
+//             imageDestination= req.file?.filename
+//             const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
+//             title: title,
+//             description: description,
+//             createdBy: UserId,} );
+//             res.json(updateBlog)
+//         }
+//     }catch(err){
+//         res.status(403).json
+//     }
+// })
 blogRouter.get('/userBlog', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userBlogs, err_5;
+    var userBlogs, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -233,15 +199,15 @@ blogRouter.get('/userBlog', veriftJwt_1.verifyJwt, function (req, res) { return 
                 res.json(userBlogs);
                 return [3 /*break*/, 3];
             case 2:
-                err_5 = _a.sent();
-                res.status(403).json(err_5);
+                err_4 = _a.sent();
+                res.status(403).json(err_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
 blogRouter.get('/user/:blogId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userName, err_6;
+    var userName, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -252,15 +218,15 @@ blogRouter.get('/user/:blogId', function (req, res) { return __awaiter(void 0, v
                 res.json(userName);
                 return [3 /*break*/, 3];
             case 2:
-                err_6 = _a.sent();
-                res.status(403).json(err_6);
+                err_5 = _a.sent();
+                res.status(403).json(err_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
 blogRouter.delete('/remove/:blogId', veriftJwt_1.verifyJwt, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var blogToDelete, err_7;
+    var blogToDelete, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -271,8 +237,8 @@ blogRouter.delete('/remove/:blogId', veriftJwt_1.verifyJwt, function (req, res) 
                 res.json('blog deleted successful!');
                 return [3 /*break*/, 3];
             case 2:
-                err_7 = _a.sent();
-                res.status(403).json(err_7);
+                err_6 = _a.sent();
+                res.status(403).json(err_6);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

@@ -99,38 +99,38 @@ blogRouter.post('/picture' , async (req,res)=> {
 } )
 
 
-blogRouter.put('/update/:blogId', async (req,res)=> {
-    try{
-        const {title , description}= req.body     
-        const UserId= req.headers['userId']
-        let imageDestination;
-        if(!req.file){  
-            //@ts-ignore
-             const userImage= await blog.findOne({_id:req.params.blogId})
-             //@ts-ignore
-             imageDestination=userImage?.imageUrl
+// blogRouter.put('/update/:blogId', async (req,res)=> {
+//     try{
+//         const {title , description}= req.body     
+//         const UserId= req.headers['userId']
+//         let imageDestination;
+//         if(!req.file){  
+//             //@ts-ignore
+//              const userImage= await blog.findOne({_id:req.params.blogId})
+//              //@ts-ignore
+//              imageDestination=userImage?.imageUrl
 
-             const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl:`${imageDestination}`,
-             title: title,
-             description: description,
-             createdBy: UserId,} )
+//              const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl:`${imageDestination}`,
+//              title: title,
+//              description: description,
+//              createdBy: UserId,} )
         
-            res.json(updateBlog)
+//             res.json(updateBlog)
              
-        }else{
-            imageDestination= req.file?.filename
-            const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
-            title: title,
-            description: description,
-            createdBy: UserId,} );
+//         }else{
+//             imageDestination= req.file?.filename
+//             const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
+//             title: title,
+//             description: description,
+//             createdBy: UserId,} );
 
-            res.json(updateBlog)
-        }
+//             res.json(updateBlog)
+//         }
      
-    }catch(err){
-        res.status(403).json
-    }
-})
+//     }catch(err){
+//         res.status(403).json
+//     }
+// })
 
 
 blogRouter.get('/userBlog', verifyJwt, async(req,res)=> {
