@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var user_1 = __importDefault(require("./routes/user"));
-var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var blog_1 = __importDefault(require("./routes/blog"));
 var cors_1 = __importDefault(require("cors"));
 var comment_1 = __importDefault(require("./routes/comment"));
@@ -15,11 +14,9 @@ dotenv_1.default.config();
 var app = (0, express_1.default)();
 (0, connect_1.mongooseConnect)();
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000',
-    credentials: true,
+    origin: 'https://blogging-application-im2z.vercel.app/',
 }));
 app.use(express_1.default.json());
-app.use((0, cookie_parser_1.default)());
 app.use('/user', user_1.default);
 app.use('/blog', blog_1.default);
 app.use('/comment', comment_1.default);
