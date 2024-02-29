@@ -1,8 +1,6 @@
 import express from 'express'
 import { verifyJwt } from '../middlewares/veriftJwt'
-import multer from 'multer'
 import blog from '../models/blog'
-import path from 'path'
 import { putObject } from '../services/aws-client'
 const blogRouter= express.Router()
 
@@ -67,21 +65,6 @@ blogRouter.get('/blogs', verifyJwt,async(req,res)=> {
         res.status(403).json(err)
     }
 })
-//  blogRouter.use(express.static(path.resolve('./public/uploads/')));
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-    //console.log(req.headers['userId']);
-      cb(null, path.resolve('./public/uploads/'))
-    },
-    filename: function (req, file, cb) {
-        // console.log(file.mimetype); // image/jpeg
-        // const ext = file.mimetype.split("/")[1]; //jpeg
-        const fileName= `${Date.now()}-${file.originalname}`
-      cb(null, fileName) // .jpeg
-    }
-  })
-
-  const upload = multer({ storage: storage })
 
 blogRouter.post('/', verifyJwt ,  async(req,res)=> {
     try{
