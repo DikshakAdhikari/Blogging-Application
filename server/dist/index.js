@@ -15,6 +15,7 @@ var app = (0, express_1.default)();
 (0, connect_1.mongooseConnect)();
 app.use((0, cors_1.default)({
     origin: 'https://blogging-application-im2z.vercel.app',
+    credentials: true
 }));
 app.use(express_1.default.json());
 app.use('/user', user_1.default);

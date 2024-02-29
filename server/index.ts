@@ -13,6 +13,7 @@ const app= express()
 mongooseConnect()
 app.use(cors({
     origin: 'https://blogging-application-im2z.vercel.app', 
+    credentials:true
   })); 
   
 app.use(express.json())
