@@ -12,7 +12,7 @@ dotenv.config()
 const app= express()
 mongooseConnect()
 app.use(cors({
-    origin: 'https://blogging-application-im2z.vercel.app', 
+    origin: 'https://dikshak-blogging.vercel.app', 
     credentials:true
   })); 
   
