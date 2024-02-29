@@ -1,7 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import userRouter from './routes/user'
-import cookieParser from 'cookie-parser'
 import blogRouter from './routes/blog'
 import cors from 'cors'
 import commentRouter from './routes/comment'
@@ -13,11 +12,9 @@ const app= express()
 mongooseConnect()
 app.use(cors({
     origin: 'https://blogging-application-im2z.vercel.app', 
-    credentials: true, 
   })); 
   
 app.use(express.json())
-app.use(cookieParser())
 app.use('/user',userRouter)
 app.use('/blog',blogRouter)
 app.use('/comment', commentRouter)
