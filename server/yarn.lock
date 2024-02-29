@@ -1918,7 +1918,7 @@ mongodb@6.3.0:
     bson "^6.2.0"
     mongodb-connection-string-url "^3.0.0"
 
-mongoose@*, mongoose@^8.2.0:
+mongoose@*, mongoose@^8.1.1:
   version "8.2.0"
   resolved "https://registry.npmjs.org/mongoose/-/mongoose-8.2.0.tgz"
   integrity sha512-la93n6zCYRbPS+c5N9oTDAktvREy5OT9OCljp1Tah0y3+p8UPMTAoabWaLZMdzYruOtF9/9GRf6MasaZjiZP1A==
