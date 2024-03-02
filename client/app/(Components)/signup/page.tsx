@@ -83,8 +83,6 @@ const Page = () => {
     }
 
     const sendImage = async ()=> {
-      // console.log(file?.name);
-      // console.log(file?.type);
       try{
         const res= await fetch(`${base_url}/user/picture`, {
           method:"POST",
@@ -118,7 +116,7 @@ const Page = () => {
             },
             body:file
           });
-          console.log('dfdfdfd');
+        
           if(!res2.ok){
             throw new Error("Network Problem!");
           }
@@ -172,7 +170,7 @@ return (
         
         </div>
         <div className=' flex justify-center flex-col items-center gap-2 m-3'>
-        <button disabled={disable} onClick={sendImage} className={` ${disable ? ' bg-gray-500' : 'bg-cyan-500'} px-5 py-2 bg-cyan-500  rounded-sm text-white`}>Upload</button>
+        <button type='button' disabled={disable} onClick={sendImage} className={` ${disable ? ' bg-gray-500' : 'bg-cyan-500'} px-5 py-2 bg-cyan-500  rounded-sm text-white`}>Upload</button>
         
         {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
         <div className=' text-green-700 font-medium'>{message}</div>

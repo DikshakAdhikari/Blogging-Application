@@ -179,12 +179,7 @@ const Page = () => {
           //@ts-ignore
           : <Image src={gallery} class="signupImg" height={200} width={200} alt="gf" /> 
          }
-        <div className=' flex justify-center flex-col items-center gap-2 m-3'>
-        <button disabled={disable} onClick={sendImage} className={` ${disable ? ' bg-gray-500' : 'bg-cyan-500'} px-5 py-2 bg-cyan-500  rounded-sm text-white`}>Upload</button>
-        
-        {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
-        <div className=' text-green-700 font-medium'>{message}</div>
-        </div>
+      
         
         <input
         
@@ -199,6 +194,12 @@ const Page = () => {
         </div>
       </div>
       <div className="mb-4">
+      <div className=' flex justify-center flex-col items-center gap-2 m-3'>
+        <button type="button" disabled={disable} onClick={sendImage} className={` ${disable ? ' bg-gray-500' : 'bg-cyan-500'} px-5 py-2 bg-cyan-500  rounded-sm text-white`}>Upload</button>
+        
+        {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
+        <div className=' text-green-700 font-medium'>{message}</div>
+        </div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
           Title
         </label>

@@ -9,19 +9,11 @@ const userRouter= express.Router()
 userRouter.post('/', async (req,res)=> {
     try{
         const {fullName, email, password, filename, contentType } = req.body
-        //console.log(fullName, email, password, filename, contentType);
-        
-        
         const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`
-        // console.log(img);
-        
-        
         const  userDetails = await user.create({
             fullName, email, password, imageUrl:img
         });
        userDetails.save()
-        console.log(userDetails);
-        
         res.json('user saved successfully!')  
     }catch(err){
         res.json(err);

@@ -1,11 +1,12 @@
 "use client"
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from "react"
 import Navbar from '../../Navbar'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import  Swal from 'sweetalert2'
 import { DeleteLogo, ProfileLogo } from "@/app/Logo"
 import { base_url } from "../../secret"
+import gallery from '../../../(assets)/gallery.png'
 
 interface pageProps{
     params: {id:string}
@@ -20,6 +21,11 @@ interface pageProps{
     const [image, setImage]= useState('')
     const [error, setError]= useState('')
     const router= useRouter()
+    const [content, setContent] = useState("");
+    const inputRef= useRef(null)
+  const [message, setMessage]= useState('')
+
+  const [disable, setDisable]= useState(false)
 
   const [file, setFile] = useState<File | null>(null);
      //@ts-ignore
@@ -62,7 +68,7 @@ interface pageProps{
           const data= await res.json()
           //console.log(data);
           setTitle(data.title)
-          setDescription(data.description)
+          setContent(data.description)
           setImage(data.imageUrl)
           setBlog(data)
          
@@ -93,6 +99,10 @@ interface pageProps{
       fun()
     },[toggle])
     
+    const handleImageClick = ()=> {
+      //@ts-ignore
+      inputRef.current.click()
+    }
     
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files !== null && e.target.files.length > 0) {
@@ -113,44 +123,97 @@ interface pageProps{
     };
   
     const handleSubmit = async (e:FormEvent)=> {
-            
       e.preventDefault()
-      const formData= new FormData()
-      if(file){
-        //console.log(title,description,file);
-        formData.append('file', file)
-      }
-      formData.append('title', title)
-      formData.append('description', description)
+    
       try{
         //@ts-ignore
         const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
           method:"PUT",
-          credentials: "include",
           //@ts-ignore
           headers:{
-            "Content-Type":"application/json",
+            "Content-Type": "application/json",
             'authorization': localStorage.getItem('token')
           },
           body:JSON.stringify({
-            title, description
+            title, description: content,  filename: file?.name, contentType:file?.type
           })
         })
   
         if(!res.ok){
           throw new Error('Network problem while creating blog!');
         }
-          const data= await res.json()        
-         //console.log(data);     
+        const data= await res.json()
+        
           Swal.fire("Blog updated successfully!");
           router.push('/myBlogs')
- 
+        
       }catch(err){
         console.log(err);
         
       }  
     }
   
+    const sendImage = async ()=> {
+      // console.log(file?.name);
+      // console.log(file?.type);
+      try{
+        const res= await fetch(`${base_url}/blog/picture`, {
+          method:"POST",
+          //@ts-ignore
+          headers: {
+            'Content-Type':"application/json",
+            'token': localStorage.getItem('token'),
+          },
+          body: JSON.stringify({
+            filename: file?.name,
+            contentType:file?.type
+          })
+        });
+        if(!res.ok){
+          throw new Error('Network problem!')
+        }
+        const data= await res.json()
+        
+        
+        if(data){
+          const s3PutUrl= data;
+  
+          const res2= await fetch(s3PutUrl, {
+            method:"PUT",
+            //@ts-ignore
+            headers: {
+              "Access-Control-Allow-Headers" : "Content-Type",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "*",
+              "Content-Type": file?.type
+            },
+            body:file
+          });
+          
+          if(!res2.ok){
+            throw new Error("Network Problem!");
+          }
+          
+          setDisable(true)
+          setImage(`https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${file?.name}`)
+          setMessage("Profile Picture uploaded successfully!")
+          
+        }else{
+          setMessage("Error while uploading")
+        }
+        
+      }catch(err){
+        setDisable(false)
+        setMessage("Error while uploading")
+        console.log(err);
+        
+      }
+      
+      
+    }
+    
+    //console.log(image);
+    
     if(!blog){
       return 
     }
@@ -165,25 +228,42 @@ interface pageProps{
       alt="Picture of the author" 
     />
     </div>
-      <form
+    <form
       onSubmit={handleSubmit}
-      className=" w-[60vw] mx-auto  p-8  bg-white rounded-lg shadow-lg"
+      className=" max-w-2xl mx-auto mt-8 bg-white p-8 border rounded-lg shadow-lg"
     >
-      <div className="mb-4 bg-white">
+      <div className="mb-4">
         <label htmlFor="file" className="block text-sm font-medium text-gray-700">
           Choose File (PNG, JPEG, SVG, WEBP.)
         </label>
+        <div onClick={handleImageClick} className=' flex flex-col gap-5 items-center'>
+          {file ? 
+          //@ts-ignore
+          <Image src={URL.createObjectURL(file)} class="signupImg" height={200} width={200} alt="gf" /> 
+          //@ts-ignore
+          : <Image src={image} class="signupImg" height={200} width={200} alt="gf" /> 
+         }
+      
+        
         <input
-         required={false}
+        
+        ref={inputRef}
           type="file"
           id="file"
           accept=".png, .jpg, .jpeg, .svg"
           onChange={handleFileChange}
-          className="mt-1 p-3 bg-white border w-full rounded-md "
+          className="mt-1 p-3 hidden bg-white border w-full rounded-md "
         />
-        {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
+        
+        </div>
       </div>
-      <div className="mb-4 bg-white">
+      <div className="mb-4">
+      <div className=' flex justify-center flex-col items-center gap-2 m-3'>
+        <button type="button" disabled={disable} onClick={sendImage} className={` ${disable ? ' bg-gray-500' : 'bg-cyan-500'} px-5 py-2 bg-cyan-500  rounded-sm text-white`}>Update</button>
+        
+        {error!="" &&  <div className=" text-red-600 font-medium">{error}</div> }
+        <div className=' text-green-700 font-medium'>{message}</div>
+        </div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
           Title
         </label>
@@ -204,11 +284,12 @@ interface pageProps{
         <textarea
         required
           id="content"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           className="mt-1 p-3 border outline-gray-600 rounded-md w-full"
           placeholder="Enter blog content"
-          rows={10}
+          cols={70}
+          rows={5}
         ></textarea>
       </div>
       <button

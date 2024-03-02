@@ -85,7 +85,9 @@ blogRouter.post('/', verifyJwt ,  async(req,res)=> {
     }catch(err){
         res.json(err)
     }
-})
+});
+
+
 
 blogRouter.post('/picture' , async (req,res)=> {
     try{
@@ -99,38 +101,24 @@ blogRouter.post('/picture' , async (req,res)=> {
 } )
 
 
-// blogRouter.put('/update/:blogId', async (req,res)=> {
-//     try{
-//         const {title , description}= req.body     
-//         const UserId= req.headers['userId']
-//         let imageDestination;
-//         if(!req.file){  
-//             //@ts-ignore
-//              const userImage= await blog.findOne({_id:req.params.blogId})
-//              //@ts-ignore
-//              imageDestination=userImage?.imageUrl
+blogRouter.put('/update/:blogId', async (req,res)=> {
+    try{
+        const {title , description, filename, contentType}= req.body     
+        const UserId= req.headers['userId']
+        const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`
 
-//              const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl:`${imageDestination}`,
-//              title: title,
-//              description: description,
-//              createdBy: UserId,} )
-        
-//             res.json(updateBlog)
-             
-//         }else{
-//             imageDestination= req.file?.filename
-//             const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{imageUrl: `/uploads/${imageDestination}`,
-//             title: title,
-//             description: description,
-//             createdBy: UserId,} );
-
-//             res.json(updateBlog)
-//         }
-     
-//     }catch(err){
-//         res.status(403).json
-//     }
-// })
+             const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{
+             title: title,
+             description: description,
+             createdBy: UserId,
+             imageUrl: img
+            } );
+            
+            res.json(updateBlog)
+    }catch(err){
+        res.status(403).json
+    }
+})
 
 
 blogRouter.get('/userBlog', verifyJwt, async(req,res)=> {
