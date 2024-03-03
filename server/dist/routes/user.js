@@ -61,7 +61,6 @@ userRouter.post('/', function (req, res) { return __awaiter(void 0, void 0, void
             case 1:
                 userDetails = _b.sent();
                 userDetails.save();
-                console.log(userDetails);
                 res.json('user saved successfully!');
                 return [3 /*break*/, 3];
             case 2:
