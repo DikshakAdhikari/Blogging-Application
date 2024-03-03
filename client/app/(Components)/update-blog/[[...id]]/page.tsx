@@ -124,6 +124,7 @@ interface pageProps{
   
     const handleSubmit = async (e:FormEvent)=> {
       e.preventDefault()
+      alert('submit handled')
     
       try{
         //@ts-ignore
