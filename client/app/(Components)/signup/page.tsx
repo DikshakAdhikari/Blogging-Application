@@ -89,7 +89,7 @@ const Page = () => {
           //@ts-ignore
           headers: {
             'Content-Type':"application/json",
-            'token': localStorage.getItem('token'),
+            'authorization': localStorage.getItem('token'),
           },
           body: JSON.stringify({
             filename: file?.name,

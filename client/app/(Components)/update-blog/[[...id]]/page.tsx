@@ -124,12 +124,11 @@ interface pageProps{
   
     const handleSubmit = async (e:FormEvent)=> {
       e.preventDefault()
-      console.log(localStorage.getItem('token'));
-      
+  
       try{
         //@ts-ignore
         const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
-          method:"POST",
+          method:"PUT",
           //@ts-ignore
           headers:{
             "Content-Type": "application/json",
@@ -164,7 +163,7 @@ interface pageProps{
           //@ts-ignore
           headers: {
             'Content-Type':"application/json",
-            'token': localStorage.getItem('token'),
+            'authorization': localStorage.getItem('token'),
           },
           body: JSON.stringify({
             filename: file?.name,
