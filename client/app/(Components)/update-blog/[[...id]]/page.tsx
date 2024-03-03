@@ -124,8 +124,8 @@ interface pageProps{
   
     const handleSubmit = async (e:FormEvent)=> {
       e.preventDefault()
-      alert('submit handled')
-    
+      console.log(localStorage.getItem('token'));
+      
       try{
         //@ts-ignore
         const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
