@@ -1,1 +1,1 @@
-export const base_url= 'https://blogging-application-1.onrender.com'
+export const base_url= 'https://blogging-application-sigma.vercel.app'
