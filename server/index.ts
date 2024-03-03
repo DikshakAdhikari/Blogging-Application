@@ -26,7 +26,7 @@ app.use('/user',userRouter)
 app.use('/blog',blogRouter)
 app.use('/comment', commentRouter)
 app.use('/', (req,res)=> {
-  res.send("Welcome babyy")
+  res.json("Welcome babyy")
 })
 
 app.listen(process.env.PORT , ()=> console.log(`Server listening on port ${process.env.PORT}`))
