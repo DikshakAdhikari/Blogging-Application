@@ -196,7 +196,7 @@ interface pageProps{
           
           setDisable(true)
           setImage(`https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${file?.name}`)
-          setMessage("Profile Picture uploaded successfully!")
+          setMessage("Blog Picture uploaded successfully!")
           
         }else{
           setMessage("Error while uploading")
