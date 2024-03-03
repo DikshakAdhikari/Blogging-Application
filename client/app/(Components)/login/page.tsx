@@ -29,7 +29,7 @@ const Login = () => {
             throw new Error('Network connection error!')
           }
           const data= await res.json()
-          console.log(data);
+    
           localStorage.setItem('token',data)
           
           dispatch(setUser(data._id))

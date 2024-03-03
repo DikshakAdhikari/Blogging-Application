@@ -65,7 +65,6 @@ const Page = () => {
           throw new Error('Network connection error!')
         }
         const data= await res.json()
-        console.log(data);
         
         Swal.fire("User registered successfully!");
         router.push('/login')
