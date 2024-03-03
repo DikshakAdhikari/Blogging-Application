@@ -129,7 +129,7 @@ interface pageProps{
       try{
         //@ts-ignore
         const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
-          method:"PUT",
+          method:"POST",
           //@ts-ignore
           headers:{
             "Content-Type": "application/json",

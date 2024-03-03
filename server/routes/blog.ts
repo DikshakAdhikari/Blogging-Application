@@ -101,7 +101,7 @@ blogRouter.post('/picture' , async (req,res)=> {
 } )
 
 
-blogRouter.put('/update/:blogId', verifyJwt, async (req,res)=> {
+blogRouter.post('/update/:blogId', verifyJwt, async (req,res)=> {
     try{
         const {title , description, filename, contentType}= req.body   
         console.log(title, description, filename, contentType);
