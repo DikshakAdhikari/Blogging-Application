@@ -28,6 +28,40 @@ interface pageProps{
   const [disable, setDisable]= useState(false)
 
   const [file, setFile] = useState<File | null>(null);
+
+  const handleSubmit = async (e:FormEvent)=> {
+    e.preventDefault()
+
+    try{
+      //@ts-ignore
+      const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
+        method:"PUT",
+        //@ts-ignore
+        headers:{
+          "Content-Type": "application/json",
+          'authorization': localStorage.getItem('token')
+        },
+        body:JSON.stringify({
+          title, description:content,filename: file?.name, contentType:file?.type
+        })
+      })
+
+      if(!res.ok){
+        throw new Error('Network problem while creating blog!');
+      }
+      const data= await res.json()
+      console.log(data);
+      
+        Swal.fire("Blog updated successfully!");
+        router.push('/myBlogs')
+      
+    }catch(err){
+      console.log(err);
+      
+    }  
+  }
+
+
      //@ts-ignore
     const handleDelete= async(commentId)=> {
       try{
@@ -122,37 +156,7 @@ interface pageProps{
       }
     };
   
-    const handleSubmit = async (e:FormEvent)=> {
-      e.preventDefault()
-  
-      try{
-        //@ts-ignore
-        const res= await fetch(`${base_url}/blog/update/${blog._id}`, {
-          method:"PUT",
-          //@ts-ignore
-          headers:{
-            "Content-Type": "application/json",
-            'authorization': localStorage.getItem('token')
-          },
-          body:JSON.stringify({
-            title, description:content,filename: file?.name, contentType:file?.type
-          })
-        })
-  
-        if(!res.ok){
-          throw new Error('Network problem while creating blog!');
-        }
-        const data= await res.json()
-        console.log(data);
-        
-          Swal.fire("Blog updated successfully!");
-          router.push('/myBlogs')
-        
-      }catch(err){
-        console.log(err);
-        
-      }  
-    }
+ 
   
     const sendImage = async ()=> {
       // console.log(file?.name);
