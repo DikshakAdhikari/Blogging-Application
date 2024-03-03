@@ -103,9 +103,13 @@ blogRouter.post('/picture' , async (req,res)=> {
 
 blogRouter.put('/update/:blogId', verifyJwt, async (req,res)=> {
     try{
-        const {title , description, filename, contentType}= req.body     
+        const {title , description, filename, contentType}= req.body   
+        console.log(title, description, filename, contentType);
+          
         const UserId= req.headers['userId']
-        const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`
+        const img = `https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${filename}`;
+        console.log(img);
+        
 
              const updateBlog = await blog.findByIdAndUpdate(req.params.blogId ,{
              title: title,
@@ -113,8 +117,9 @@ blogRouter.put('/update/:blogId', verifyJwt, async (req,res)=> {
              createdBy: UserId,
              imageUrl: img
             } );
+            console.log(updateBlog);
             
-            res.json(updateBlog)
+            res.json('Blog updated successfully!')
     }catch(err){
         res.status(403).json
     }

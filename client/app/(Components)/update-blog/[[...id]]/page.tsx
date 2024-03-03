@@ -135,7 +135,7 @@ interface pageProps{
             'authorization': localStorage.getItem('token')
           },
           body:JSON.stringify({
-            title, description: content,  filename: file?.name, contentType:file?.type
+            title, description:content,filename: file?.name, contentType:file?.type
           })
         })
   
@@ -143,6 +143,7 @@ interface pageProps{
           throw new Error('Network problem while creating blog!');
         }
         const data= await res.json()
+        console.log(data);
         
           Swal.fire("Blog updated successfully!");
           router.push('/myBlogs')
